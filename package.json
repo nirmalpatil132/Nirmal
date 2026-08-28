@@ -1,0 +1,29 @@
+{
+  "name": "nirmal-portfolio-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nirmal Portfolio V2 - Full-Stack Monorepo Application",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:api": "npm run dev --workspace=apps/api",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@next/swc-win32-x64-msvc": "^16.3.3",
+    "@types/node": "^20.11.0",
+    "concurrently": "^8.2.2",
+    "prisma": "^5.10.0",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
+}
