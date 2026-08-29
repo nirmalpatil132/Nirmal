@@ -12,6 +12,7 @@ import { FormField } from '../ui/FormField';
 import { Badge } from '../ui/Badge';
 import { submitContactForm } from '../../lib/api/contact';
 import { ContactFormInput } from '@nirmal/validation';
+import { PROFILE_DATA } from '../../data/profile';
 
 export function ContactSection() {
   const [formData, setFormData] = useState<ContactFormInput>({
@@ -29,7 +30,6 @@ export function ContactSection() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for edited field
     if (fieldErrors[name]) {
       setFieldErrors((prev) => {
         const next = { ...prev };
@@ -72,7 +72,7 @@ export function ContactSection() {
       const response = await submitContactForm(formData);
 
       if (response.success) {
-        setSuccessMessage(response.data.message || 'Contact message submitted successfully!');
+        setSuccessMessage(response.data.message || 'Thank you for reaching out! Your message has been sent successfully.');
         setFormData({ name: '', email: '', subject: '', message: '' });
         setFieldErrors({});
       } else {
@@ -98,48 +98,48 @@ export function ContactSection() {
       <Container size="lg">
         <SectionHeader
           badge="Get In Touch"
-          title="Contact & Project Inquiry"
-          subtitle="[Contact section subtitle placeholder: Feel free to send a message regarding software development, UI/UX design, or collaboration opportunities.]"
+          title="Contact & Collaboration Inquiry"
+          subtitle="Have an opportunity, project, or idea in mind? I'm always interested in connecting with developers, teams, startups, and organizations working on interesting problems."
         />
 
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: 'var(--space-2xl)',
             alignItems: 'start',
           }}
         >
-          {/* CONTACT INFO PLACEHOLDER CARD */}
+          {/* CONTACT INFO CARD */}
           <Card variant="elevated">
-            <Badge variant="primary" style={{ marginBottom: 'var(--space-md)' }}>Communication Hub</Badge>
-            
+            <Badge variant="primary" style={{ marginBottom: 'var(--space-md)' }}>Direct Communication</Badge>
+
             <h3 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-sm)' }}>
               Let&apos;s Connect
             </h3>
 
             <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 'var(--space-xl)' }}>
-              [Contact summary placeholder: Open for full-stack web development projects, UI/UX consulting, and software engineering roles.]
+              Feel free to reach out directly via email, phone, or by submitting the validated contact form. I respond promptly to software engineering inquiries and collaboration requests.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                <span style={{ fontSize: 'var(--font-size-xl)', color: 'var(--secondary)' }}>📧</span>
+                <span style={{ fontSize: 'var(--font-size-xl)', color: 'var(--primary)' }}>📧</span>
                 <div>
-                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>Email (Placeholder)</div>
-                  <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--text-primary)' }}>
-                    [email@example.com placeholder]
-                  </div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>Email</div>
+                  <a href={`mailto:${PROFILE_DATA.contactEmail}`} style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--text-primary)', textDecoration: 'none' }}>
+                    {PROFILE_DATA.contactEmail}
+                  </a>
                 </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                <span style={{ fontSize: 'var(--font-size-xl)', color: 'var(--success)' }}>💬</span>
+                <span style={{ fontSize: 'var(--font-size-xl)', color: 'var(--success)' }}>📱</span>
                 <div>
-                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>WhatsApp Quick Connect</div>
-                  <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--text-primary)' }}>
-                    [+91 0000000000 placeholder]
-                  </div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>Phone / WhatsApp</div>
+                  <a href={`tel:${PROFILE_DATA.contactPhone}`} style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--text-primary)', textDecoration: 'none' }}>
+                    {PROFILE_DATA.contactPhone}
+                  </a>
                 </div>
               </div>
 
@@ -148,7 +148,17 @@ export function ContactSection() {
                 <div>
                   <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>Location</div>
                   <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--text-primary)' }}>
-                    [City, Country Placeholder]
+                    {PROFILE_DATA.location}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
+                <span style={{ fontSize: 'var(--font-size-xl)', color: 'var(--secondary)' }}>💼</span>
+                <div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>Current Status</div>
+                  <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-medium)', color: 'var(--success)' }}>
+                    {PROFILE_DATA.currentRole} @ {PROFILE_DATA.currentOrganization}
                   </div>
                 </div>
               </div>
@@ -159,7 +169,7 @@ export function ContactSection() {
           <Card variant="glass">
             <form onSubmit={handleSubmit} noValidate>
               <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', marginBottom: 'var(--space-md)' }}>
-                Send Message
+                Send a Message
               </h3>
 
               {successMessage && (
@@ -225,7 +235,7 @@ export function ContactSection() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  placeholder="e.g. Project Inquiry / Collaboration"
+                  placeholder="e.g. Full-Stack / Software Engineering Inquiry"
                   error={!!fieldErrors.subject}
                   disabled={loading}
                 />
@@ -237,7 +247,7 @@ export function ContactSection() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Write your detailed project message here..."
+                  placeholder="Write your project details or message here..."
                   rows={4}
                   error={!!fieldErrors.message}
                   disabled={loading}
@@ -245,7 +255,7 @@ export function ContactSection() {
               </FormField>
 
               <Button type="submit" variant="primary" size="lg" fullWidth disabled={loading}>
-                {loading ? 'Submitting Message...' : 'Submit Message ➔'}
+                {loading ? 'Sending Message...' : 'Submit Message ➔'}
               </Button>
             </form>
           </Card>

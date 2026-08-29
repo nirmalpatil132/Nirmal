@@ -6,36 +6,7 @@ import { Container } from '../ui/Container';
 import { SectionHeader } from '../ui/SectionHeader';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
-import { Education } from '@nirmal/types';
-
-const PLACEHOLDER_EDUCATION: Education[] = [
-  {
-    id: 'edu1',
-    institution: '[Placeholder University / College Name 1]',
-    degree: '[Placeholder Degree: Bachelor of Technology / Computer Science]',
-    fieldOfStudy: '[Computer Science & Engineering Placeholder]',
-    startDate: new Date('2023-08-01'),
-    endDate: new Date('2027-05-30'),
-    grade: '[Grade / GPA Placeholder]',
-    activities: '[Placeholder Activities: Web Development Club Lead, Hackathon Organizer]',
-    order: 1,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: 'edu2',
-    institution: '[Placeholder High School / Institution 2]',
-    degree: '[Placeholder Higher Secondary Education]',
-    fieldOfStudy: '[Science / Mathematics Placeholder]',
-    startDate: new Date('2021-06-01'),
-    endDate: new Date('2023-04-30'),
-    grade: '[Percentage Placeholder]',
-    activities: '[Placeholder Activities: Science Club, Academic Excellence Award]',
-    order: 2,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
+import { EDUCATION_DATA } from '../../data/education';
 
 export function EducationSection() {
   return (
@@ -43,17 +14,17 @@ export function EducationSection() {
       <Container size="lg">
         <SectionHeader
           badge="Academic Background"
-          title="Education & Academic Background"
-          subtitle="[Education section subtitle placeholder: Academic degrees, coursework, leadership activities, and academic honors.]"
+          title="Education & Academic Achievements"
+          subtitle="Formal academic degrees, technical coursework, and school education history."
         />
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-xl)' }}>
-          {PLACEHOLDER_EDUCATION.map((edu) => (
-            <Card key={edu.id} variant="default">
+          {EDUCATION_DATA.map((edu) => (
+            <Card key={edu.id} variant="default" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-sm)' }}>
                 <Badge variant="secondary">{edu.fieldOfStudy}</Badge>
                 <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
-                  {edu.startDate.getFullYear()} – {edu.endDate ? edu.endDate.getFullYear() : 'Present'}
+                  {edu.period}
                 </span>
               </div>
 
@@ -65,15 +36,13 @@ export function EducationSection() {
                 {edu.institution}
               </div>
 
-              {edu.grade && (
-                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-xs)' }}>
-                  Score: <strong style={{ color: 'var(--text-primary)' }}>{edu.grade}</strong>
-                </div>
-              )}
+              <div style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', marginBottom: 'var(--space-xs)' }}>
+                Result / Performance: <strong style={{ color: 'var(--text-primary)' }}>{edu.result}</strong>
+              </div>
 
-              {edu.activities && (
-                <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                  {edu.activities}
+              {edu.highlights && (
+                <p style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', lineHeight: 1.5, marginTop: 'auto', paddingTop: 'var(--space-xs)', borderTop: '1px solid var(--border-subtle)' }}>
+                  {edu.highlights}
                 </p>
               )}
             </Card>

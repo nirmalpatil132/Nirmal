@@ -1,124 +1,175 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Section } from '../ui/Section';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
-import { Card } from '../ui/Card';
+import { PROFILE_DATA } from '../../data/profile';
 
 export function HeroSection() {
   return (
-    <Section id="hero" spacing="lg" style={{ minHeight: 'calc(100vh - var(--header-height))', display: 'flex', alignItems: 'center' }}>
+    <Section id="hero" spacing="lg" style={{ paddingTop: 'calc(var(--space-2xl) + 2rem)' }}>
       <Container size="lg">
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             gap: 'var(--space-2xl)',
             alignItems: 'center',
           }}
         >
-          {/* LEFT CONTENT */}
-          <div>
-            <div style={{ display: 'flex', gap: 'var(--space-xs)', marginBottom: 'var(--space-md)', flexWrap: 'wrap' }}>
-              <Badge variant="primary">Phase 3 Application Shell</Badge>
-              <Badge variant="secondary">Full-Stack & UI/UX</Badge>
+          {/* TEXT & HERO CONTENT */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
+              <Badge variant="success">🟢 Open to Opportunities</Badge>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+                SDE Intern @ Evnorix Infotech
+              </span>
             </div>
 
             <h1
               style={{
-                fontSize: 'var(--font-size-display)',
-                fontWeight: 'var(--font-weight-bold)',
-                color: 'var(--text-primary)',
-                letterSpacing: '-0.03em',
+                fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                fontWeight: 'var(--font-weight-extrabold)',
                 lineHeight: 1.1,
-                marginBottom: 'var(--space-sm)',
+                color: 'var(--text-primary)',
+                letterSpacing: '-0.02em',
               }}
             >
-              Hi, I am <br />
-              <span style={{ color: 'var(--secondary)' }}>[Portfolio Owner Name]</span>
+              Hi, I&apos;m <span style={{ color: 'var(--primary)' }}>{PROFILE_DATA.displayName}</span>
             </h1>
-
-            <h2
-              style={{
-                fontSize: 'var(--font-size-2xl)',
-                fontWeight: 'var(--font-weight-semibold)',
-                color: 'var(--text-secondary)',
-                marginBottom: 'var(--space-md)',
-              }}
-            >
-              [Professional Headline / Software Developer & Product Designer]
-            </h2>
 
             <p
               style={{
                 fontSize: 'var(--font-size-lg)',
-                color: 'var(--text-muted)',
-                lineHeight: 1.6,
-                marginBottom: 'var(--space-xl)',
-                maxWidth: '600px',
+                fontWeight: 'var(--font-weight-medium)',
+                color: 'var(--secondary)',
+                lineHeight: 1.4,
               }}
             >
-              [Short biography placeholder: Passionate software developer and UI/UX designer building modern web applications, high-performance API services, and intuitive user experiences.]
+              {PROFILE_DATA.headline}
             </p>
 
-            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+            <p
+              style={{
+                fontSize: 'var(--font-size-sm)',
+                color: 'var(--text-secondary)',
+                lineHeight: 1.6,
+              }}
+            >
+              {PROFILE_DATA.shortBio}
+            </p>
+
+            <div
+              style={{
+                padding: 'var(--space-sm) var(--space-md)',
+                background: 'var(--bg-glass)',
+                borderLeft: '3px solid var(--primary)',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: 'var(--font-size-xs)',
+                color: 'var(--text-muted)',
+                fontStyle: 'italic',
+              }}
+            >
+              &ldquo;{PROFILE_DATA.philosophy}&rdquo;
+            </div>
+
+            {/* CTAS */}
+            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
               <a href="#projects" style={{ textDecoration: 'none' }}>
                 <Button variant="primary" size="lg">
-                  Explore Featured Projects ➔
+                  Explore Projects ➔
                 </Button>
               </a>
+
               <a href="#contact" style={{ textDecoration: 'none' }}>
                 <Button variant="secondary" size="lg">
-                  Get In Touch
+                  Let&apos;s Connect
+                </Button>
+              </a>
+
+              <a href={PROFILE_DATA.resumePdfPath} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                <Button variant="ghost" size="lg">
+                  📄 View Resume ↗
                 </Button>
               </a>
             </div>
+
+            {/* IDENTITY TAGS */}
+            <div style={{ display: 'flex', gap: 'var(--space-2xs)', flexWrap: 'wrap', marginTop: 'var(--space-2xs)' }}>
+              {PROFILE_DATA.identityTags.map((tag, idx) => (
+                <Badge key={idx} variant="neutral">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
           </div>
 
-          {/* RIGHT VISUAL / AVATAR PLACEHOLDER CARD */}
+          {/* PROFILE PHOTO & VISUAL CARD */}
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <Card
-              variant="glass"
+            <div
               style={{
+                position: 'relative',
                 width: '100%',
-                maxWidth: '380px',
-                padding: 'var(--space-2xl)',
-                textAlign: 'center',
-                boxShadow: 'var(--shadow-glow)',
+                maxWidth: '360px',
+                aspectRatio: '4 / 5',
+                borderRadius: 'var(--radius-2xl)',
+                padding: 'var(--space-xs)',
+                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
                 border: '1px solid var(--border-default)',
+                boxShadow: 'var(--shadow-xl)',
               }}
             >
               <div
                 style={{
-                  width: '120px',
-                  height: '120px',
-                  borderRadius: '50%',
-                  background: 'var(--bg-elevated)',
-                  border: '3px solid var(--primary)',
-                  margin: '0 auto var(--space-md) auto',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 'var(--font-size-2xl)',
-                  color: 'var(--secondary)',
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: 'var(--radius-xl)',
+                  overflow: 'hidden',
+                  background: 'var(--bg-tertiary)',
                 }}
               >
-                👤
+                <Image
+                  src={PROFILE_DATA.profileImagePath}
+                  alt="Nirmal Patil — Software Developer Intern"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 360px"
+                  style={{ objectFit: 'cover', objectPosition: 'top' }}
+                  priority
+                />
               </div>
 
-              <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', marginBottom: 'var(--space-2xs)' }}>
-                [Profile Visual Placeholder]
-              </h3>
-              <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', marginBottom: 'var(--space-md)' }}>
-                Authoritative personal photo & biography will be populated upon request in a later phase.
-              </p>
-
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-xs)' }}>
-                <Badge variant="success">Available for Opportunities</Badge>
+              {/* OVERLAY BADGE */}
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: 'var(--space-md)',
+                  left: 'var(--space-md)',
+                  right: 'var(--space-md)',
+                  background: 'rgba(15, 23, 42, 0.85)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-md)',
+                  padding: 'var(--space-xs) var(--space-sm)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-xs)',
+                }}
+              >
+                <span style={{ fontSize: 'var(--font-size-md)' }}>💻</span>
+                <div>
+                  <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)' }}>
+                    Nirmal Rajendra Patil
+                  </div>
+                  <div style={{ fontSize: '10px', color: 'var(--secondary)' }}>
+                    Software Developer Intern @ Evnorix
+                  </div>
+                </div>
               </div>
-            </Card>
+            </div>
           </div>
         </div>
       </Container>
