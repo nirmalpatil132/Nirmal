@@ -2,10 +2,11 @@ import React from 'react';
 
 export interface BadgeProps {
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'neutral';
+  style?: React.CSSProperties;
   children: React.ReactNode;
 }
 
-export function Badge({ variant = 'neutral', children }: BadgeProps) {
+export function Badge({ variant = 'neutral', style, children }: BadgeProps) {
   const styles: Record<string, React.CSSProperties> = {
     primary: { background: 'var(--primary-light)', color: 'var(--primary)' },
     secondary: { background: 'var(--secondary-light)', color: 'var(--secondary)' },
@@ -26,6 +27,7 @@ export function Badge({ variant = 'neutral', children }: BadgeProps) {
         borderRadius: 'var(--radius-sm)',
         border: '1px solid var(--border-subtle)',
         ...styles[variant],
+        ...style,
       }}
     >
       {children}
