@@ -33,13 +33,20 @@ export default function Phase1FoundationPage() {
 
   return (
     <main style={{ padding: '3rem 1.5rem', maxWidth: '800px', margin: '0 auto' }}>
-      <header style={{ marginBottom: '2.5rem', borderBottom: '1px solid #1f2937', paddingBottom: '1.5rem' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#38bdf8', marginBottom: '0.5rem' }}>
-          Nirmal Portfolio V2
-        </h1>
-        <p style={{ fontSize: '1.1rem', color: '#9ca3af' }}>
-          Phase 1 — Architecture & Foundation
-        </p>
+      <header style={{ marginBottom: '2.5rem', borderBottom: '1px solid #1f2937', paddingBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+        <div>
+          <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#38bdf8', marginBottom: '0.5rem' }}>
+            Nirmal Portfolio V2
+          </h1>
+          <p style={{ fontSize: '1.1rem', color: '#9ca3af' }}>
+            Phase 1 & 2 — Architecture & Design System Foundation
+          </p>
+        </div>
+        <a href="/design-system" style={{ textDecoration: 'none' }}>
+          <button style={{ padding: '0.625rem 1.25rem', background: '#6366f1', color: '#ffffff', border: 'none', borderRadius: '0.375rem', fontWeight: '600', cursor: 'pointer' }}>
+            View Phase 2 Design System ➔
+          </button>
+        </a>
       </header>
 
       <section
