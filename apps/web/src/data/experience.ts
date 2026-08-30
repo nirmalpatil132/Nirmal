@@ -122,3 +122,5 @@ export const LEADERSHIP_EXPERIENCE: ExperienceItem[] = [
     skillsGained: ['Student Outreach', 'Communication', 'Community Engagement'],
   },
 ];
+
+export const AMBASSADOR_EXPERIENCE: ExperienceItem[] = LEADERSHIP_EXPERIENCE.filter((item) => item.type === 'ambassador');

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 
@@ -11,56 +12,25 @@ export interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Role', href: '#current-role' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Journey', href: '#learning-journey' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Education', href: '#education' },
-  { label: 'Certificates', href: '#certificates' },
-  { label: 'Achievements', href: '#achievements' },
-  { label: 'Profiles', href: '#digital-presence' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about' },
+  { label: 'Experience', href: '/experience' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Skills', href: '/skills' },
+  { label: 'Journey', href: '/journey' },
+  { label: 'Achievements', href: '/achievements' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+  const pathname = usePathname();
 
-  // Track active section and scroll state
+  // Track scroll state for glass header intensity
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-
-      const sectionIds = [
-        'hero',
-        'about',
-        'current-role',
-        'experience',
-        'projects',
-        'learning-journey',
-        'skills',
-        'education',
-        'certificates',
-        'achievements',
-        'digital-presence',
-        'contact',
-      ];
-      const scrollPos = window.scrollY + 120;
-
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -97,7 +67,7 @@ export function Navbar() {
         top: 0,
         zIndex: 'var(--z-sticky)',
         width: '100%',
-        background: isScrolled ? 'rgba(7, 9, 14, 0.88)' : 'rgba(7, 9, 14, 0.65)',
+        background: isScrolled ? 'rgba(7, 9, 14, 0.92)' : 'rgba(7, 9, 14, 0.75)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid var(--border-subtle)',
@@ -114,8 +84,8 @@ export function Navbar() {
           }}
         >
           {/* BRAND LOGO */}
-          <a
-            href="#hero"
+          <Link
+            href="/"
             style={{
               textDecoration: 'none',
               fontSize: 'var(--font-size-lg)',
@@ -138,9 +108,9 @@ export function Navbar() {
                 display: 'inline-block',
               }}
             />
-          </a>
+          </Link>
 
-          {/* DESKTOP NAVIGATION LINKS */}
+          {/* DESKTOP ROUTE NAVIGATION LINKS */}
           <nav
             style={{
               display: 'flex',
@@ -151,10 +121,9 @@ export function Navbar() {
             className="hidden-mobile"
           >
             {NAV_ITEMS.map((item) => {
-              const sectionId = item.href.replace('#', '');
-              const isActive = activeSection === sectionId;
+              const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
               return (
-                <a
+                <Link
                   key={item.label}
                   href={item.href}
                   style={{
@@ -162,7 +131,7 @@ export function Navbar() {
                     fontSize: '13px',
                     fontWeight: isActive ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
                     color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
-                    padding: '6px 10px',
+                    padding: '6px 12px',
                     borderRadius: 'var(--radius-sm)',
                     background: isActive ? 'var(--primary-light)' : 'transparent',
                     border: isActive ? '1px solid var(--border-orange)' : '1px solid transparent',
@@ -170,7 +139,7 @@ export function Navbar() {
                   }}
                 >
                   {item.label}
-                </a>
+                </Link>
               );
             })}
 
@@ -225,13 +194,12 @@ export function Navbar() {
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
             <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-xs)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Navigation Menu
+              Route Navigation
             </div>
             {NAV_ITEMS.map((item) => {
-              const sectionId = item.href.replace('#', '');
-              const isActive = activeSection === sectionId;
+              const isActive = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
               return (
-                <a
+                <Link
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
@@ -251,7 +219,7 @@ export function Navbar() {
                 >
                   <span>{item.label}</span>
                   <span style={{ color: isActive ? 'var(--primary)' : 'var(--text-muted)', fontSize: 'var(--font-size-sm)' }}>➔</span>
-                </a>
+                </Link>
               );
             })}
           </div>

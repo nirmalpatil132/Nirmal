@@ -8,7 +8,7 @@ import { PROFILE_DATA } from '../../data/profile';
 import { SOCIAL_LINKS } from '../../data/social';
 
 export interface FooterProps {
-  onOpenHealthModal: () => void;
+  onOpenHealthModal?: () => void;
 }
 
 export function Footer({ onOpenHealthModal }: FooterProps) {
@@ -74,20 +74,22 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
               <Link href="/design-system" style={{ color: 'var(--secondary)', textDecoration: 'none' }}>
                 🎨 Phase 2 Design System Showcase ↗
               </Link>
-              <button
-                onClick={onOpenHealthModal}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--primary)',
-                  fontSize: 'var(--font-size-xs)',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  padding: 0,
-                }}
-              >
-                ⚡ Check Architecture Status (`GET /api/v1/health`)
-              </button>
+              {onOpenHealthModal && (
+                <button
+                  onClick={onOpenHealthModal}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--primary)',
+                    fontSize: 'var(--font-size-xs)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    padding: 0,
+                  }}
+                >
+                  ⚡ Check Architecture Status (`GET /api/v1/health`)
+                </button>
+              )}
               <div style={{ display: 'flex', gap: 'var(--space-xs)', marginTop: 'var(--space-xs)', flexWrap: 'wrap' }}>
                 {SOCIAL_LINKS.slice(0, 4).map((link) => (
                   <a key={link.platform} href={link.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>

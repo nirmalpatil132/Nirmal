@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Section } from '../ui/Section';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
@@ -84,17 +85,17 @@ export function HeroSection() {
 
             {/* CTA BUTTON SYSTEM */}
             <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
-              <a href="#projects" style={{ textDecoration: 'none' }}>
+              <Link href="/projects" style={{ textDecoration: 'none' }}>
                 <Button variant="primary" size="lg" style={{ boxShadow: 'var(--shadow-glow-lg)' }}>
                   Explore My Work ➔
                 </Button>
-              </a>
+              </Link>
 
-              <a href="#contact" style={{ textDecoration: 'none' }}>
+              <Link href="/contact" style={{ textDecoration: 'none' }}>
                 <Button variant="secondary" size="lg">
                   Let&apos;s Connect
                 </Button>
-              </a>
+              </Link>
 
               <a href={PROFILE_DATA.resumePdfPath} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                 <Button variant="ghost" size="lg">
