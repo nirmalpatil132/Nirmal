@@ -123,6 +123,11 @@ body {
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: 
+    radial-gradient(circle at 85% 15%, rgba(255, 107, 0, 0.08) 0%, transparent 45%),
+    radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 75% 85%, rgba(255, 107, 0, 0.06) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
 /* Accessibility Focus Ring Standards */

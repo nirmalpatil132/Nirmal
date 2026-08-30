@@ -29,11 +29,25 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
+  // Track active section and scroll state
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sectionIds = ['hero', 'about', 'current-role', 'experience', 'projects', 'learning-journey', 'skills', 'education', 'certificates', 'achievements', 'digital-presence', 'contact'];
+      const sectionIds = [
+        'hero',
+        'about',
+        'current-role',
+        'experience',
+        'projects',
+        'learning-journey',
+        'skills',
+        'education',
+        'certificates',
+        'achievements',
+        'digital-presence',
+        'contact',
+      ];
       const scrollPos = window.scrollY + 120;
 
       for (const id of sectionIds) {
@@ -53,6 +67,29 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Handle Escape key to close mobile menu
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
+
   return (
     <header
       style={{
@@ -60,10 +97,11 @@ export function Navbar() {
         top: 0,
         zIndex: 'var(--z-sticky)',
         width: '100%',
-        background: isScrolled ? 'rgba(3, 7, 18, 0.85)' : 'rgba(3, 7, 18, 0.5)',
-        backdropFilter: 'blur(16px)',
+        background: isScrolled ? 'rgba(7, 9, 14, 0.88)' : 'rgba(7, 9, 14, 0.65)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid var(--border-subtle)',
-        transition: 'all 250ms ease',
+        transition: 'all var(--transition-normal)',
       }}
     >
       <Container size="lg">
@@ -72,7 +110,7 @@ export function Navbar() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: '4rem',
+            height: '4.25rem',
           }}
         >
           {/* BRAND LOGO */}
@@ -85,11 +123,21 @@ export function Navbar() {
               color: 'var(--text-primary)',
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--space-2xs)',
+              gap: '6px',
             }}
           >
             <span style={{ color: 'var(--primary)' }}>NIRMAL</span>
             <span style={{ color: 'var(--text-muted)' }}>PATIL</span>
+            <span
+              style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                background: 'var(--primary)',
+                boxShadow: '0 0 8px var(--primary)',
+                display: 'inline-block',
+              }}
+            />
           </a>
 
           {/* DESKTOP NAVIGATION LINKS */}
@@ -97,7 +145,7 @@ export function Navbar() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: 'var(--space-xs)',
+              gap: '4px',
               WebkitFontSmoothing: 'antialiased',
             }}
             className="hidden-mobile"
@@ -114,9 +162,11 @@ export function Navbar() {
                     fontSize: '13px',
                     fontWeight: isActive ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
                     color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
-                    padding: 'var(--space-2xs) var(--space-xs)',
+                    padding: '6px 10px',
                     borderRadius: 'var(--radius-sm)',
-                    transition: 'color 150ms ease',
+                    background: isActive ? 'var(--primary-light)' : 'transparent',
+                    border: isActive ? '1px solid var(--border-orange)' : '1px solid transparent',
+                    transition: 'all var(--transition-fast)',
                   }}
                 >
                   {item.label}
@@ -124,9 +174,9 @@ export function Navbar() {
               );
             })}
 
-            <Link href="/design-system" style={{ textDecoration: 'none' }}>
+            <Link href="/design-system" style={{ textDecoration: 'none', marginLeft: '6px' }}>
               <Button variant="ghost" size="sm" style={{ fontSize: '11px' }}>
-                Design System
+                Design System ↗
               </Button>
             </Link>
           </nav>
@@ -135,11 +185,14 @@ export function Navbar() {
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
+            aria-expanded={mobileMenuOpen}
             style={{
-              background: 'transparent',
-              border: 'none',
+              background: 'var(--bg-elevated)',
+              border: '1px solid var(--border-default)',
+              borderRadius: 'var(--radius-md)',
               color: 'var(--text-primary)',
-              fontSize: '1.5rem',
+              fontSize: '1.25rem',
+              padding: '6px 12px',
               cursor: 'pointer',
               display: 'none',
             }}
@@ -148,45 +201,73 @@ export function Navbar() {
             {mobileMenuOpen ? '✕' : '☰'}
           </button>
         </div>
+      </Container>
 
-        {/* MOBILE MENU DRAWER */}
-        {mobileMenuOpen && (
-          <div
-            style={{
-              padding: 'var(--space-md) 0 var(--space-lg)',
-              borderTop: '1px solid var(--border-subtle)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-xs)',
-            }}
-          >
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  textDecoration: 'none',
-                  fontSize: 'var(--font-size-md)',
-                  color: 'var(--text-primary)',
-                  padding: 'var(--space-xs) 0',
-                }}
-              >
-                {item.label}
-              </a>
-            ))}
+      {/* MOBILE MENU DRAWER OVERLAY */}
+      {mobileMenuOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '4.25rem',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(7, 9, 14, 0.95)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            zIndex: 'var(--z-overlay)',
+            padding: 'var(--space-lg) var(--space-md)',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            overflowY: 'auto',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
+            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginBottom: 'var(--space-xs)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Navigation Menu
+            </div>
+            {NAV_ITEMS.map((item) => {
+              const sectionId = item.href.replace('#', '');
+              const isActive = activeSection === sectionId;
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  style={{
+                    textDecoration: 'none',
+                    fontSize: 'var(--font-size-lg)',
+                    fontWeight: isActive ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
+                    color: isActive ? 'var(--primary)' : 'var(--text-primary)',
+                    padding: 'var(--space-sm) var(--space-md)',
+                    background: isActive ? 'var(--primary-light)' : 'var(--bg-secondary)',
+                    border: isActive ? '1px solid var(--border-orange)' : '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-md)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <span>{item.label}</span>
+                  <span style={{ color: isActive ? 'var(--primary)' : 'var(--text-muted)', fontSize: 'var(--font-size-sm)' }}>➔</span>
+                </a>
+              );
+            })}
+          </div>
 
-            <Link href="/design-system" style={{ textDecoration: 'none', marginTop: 'var(--space-xs)' }}>
-              <Button variant="secondary" size="sm" fullWidth>
-                Explore Design System
+          <div style={{ marginTop: 'var(--space-xl)', paddingTop: 'var(--space-md)', borderTop: '1px solid var(--border-subtle)' }}>
+            <Link href="/design-system" style={{ textDecoration: 'none' }} onClick={() => setMobileMenuOpen(false)}>
+              <Button variant="secondary" size="md" fullWidth>
+                🎨 Explore Design System ↗
               </Button>
             </Link>
           </div>
-        )}
-      </Container>
+        </div>
+      )}
 
       <style jsx global>{`
-        @media (max-width: 900px) {
+        @media (max-width: 1024px) {
           .hidden-mobile {
             display: none !important;
           }

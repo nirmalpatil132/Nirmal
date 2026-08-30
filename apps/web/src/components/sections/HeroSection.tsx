@@ -10,41 +10,44 @@ import { PROFILE_DATA } from '../../data/profile';
 
 export function HeroSection() {
   return (
-    <Section id="hero" spacing="lg" style={{ paddingTop: 'calc(var(--space-2xl) + 2rem)' }}>
+    <Section id="hero" spacing="lg" style={{ paddingTop: 'calc(var(--space-2xl) + 2.5rem)', paddingBottom: 'var(--space-3xl)' }}>
       <Container size="lg">
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 'var(--space-2xl)',
+            gap: 'var(--space-3xl)',
             alignItems: 'center',
           }}
         >
-          {/* TEXT & HERO CONTENT */}
+          {/* LEFT COLUMN: HEADLINE, NARRATIVE & CTAS */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+            {/* SUBTITLE BADGE */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
-              <Badge variant="primary">🟢 Open to Opportunities</Badge>
-              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
-                SDE Intern @ Evnorix Infotech
+              <Badge variant="primary">⚡ SDE INTERN @ EVNORIX INFOTECH</Badge>
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--success)', fontWeight: 'var(--font-weight-medium)' }}>
+                🟢 Open to Opportunities
               </span>
             </div>
 
+            {/* OVERSIZED HEADLINE */}
             <h1
               style={{
-                fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                fontSize: 'clamp(2.5rem, 5.5vw, 3.8rem)',
                 fontWeight: 'var(--font-weight-extrabold)',
                 lineHeight: 1.1,
                 color: 'var(--text-primary)',
-                letterSpacing: '-0.02em',
+                letterSpacing: '-0.025em',
               }}
             >
               Hi, I&apos;m <span className="text-gradient-orange">{PROFILE_DATA.displayName}</span>
             </h1>
 
+            {/* PRIMARY ROLE SUBTITLE */}
             <p
               style={{
                 fontSize: 'var(--font-size-lg)',
-                fontWeight: 'var(--font-weight-medium)',
+                fontWeight: 'var(--font-weight-semibold)',
                 color: 'var(--secondary)',
                 lineHeight: 1.4,
               }}
@@ -52,16 +55,18 @@ export function HeroSection() {
               {PROFILE_DATA.headline}
             </p>
 
+            {/* SHORT NARRATIVE BIO */}
             <p
               style={{
                 fontSize: 'var(--font-size-sm)',
                 color: 'var(--text-secondary)',
-                lineHeight: 1.6,
+                lineHeight: 1.7,
               }}
             >
               {PROFILE_DATA.shortBio}
             </p>
 
+            {/* PHILOSOPHY QUOTE BOX */}
             <div
               style={{
                 padding: 'var(--space-sm) var(--space-md)',
@@ -77,11 +82,11 @@ export function HeroSection() {
               &ldquo;{PROFILE_DATA.philosophy}&rdquo;
             </div>
 
-            {/* CTAS */}
+            {/* CTA BUTTON SYSTEM */}
             <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
               <a href="#projects" style={{ textDecoration: 'none' }}>
-                <Button variant="primary" size="lg" style={{ boxShadow: 'var(--shadow-glow)' }}>
-                  Explore Projects ➔
+                <Button variant="primary" size="lg" style={{ boxShadow: 'var(--shadow-glow-lg)' }}>
+                  Explore My Work ➔
                 </Button>
               </a>
 
@@ -108,17 +113,17 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* PROFILE PHOTO & VISUAL CARD */}
+          {/* RIGHT COLUMN: CINEMATIC FRAMED PROFILE IMAGE */}
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div
               style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '360px',
+                maxWidth: '380px',
                 aspectRatio: '4 / 5',
                 borderRadius: 'var(--radius-2xl)',
                 padding: 'var(--space-xs)',
-                background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.4) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.45) 0%, rgba(139, 92, 246, 0.15) 100%)',
                 border: '1px solid var(--border-orange)',
                 boxShadow: 'var(--shadow-glow-lg)',
               }}
@@ -137,21 +142,21 @@ export function HeroSection() {
                   src={PROFILE_DATA.profileImagePath}
                   alt="Nirmal Patil — Software Developer Intern"
                   fill
-                  sizes="(max-width: 768px) 100vw, 360px"
+                  sizes="(max-width: 768px) 100vw, 380px"
                   style={{ objectFit: 'cover', objectPosition: 'top' }}
                   priority
                 />
               </div>
 
-              {/* OVERLAY BADGE */}
+              {/* GLASSMORPHISM OVERLAY BADGE */}
               <div
                 style={{
                   position: 'absolute',
                   bottom: 'var(--space-md)',
                   left: 'var(--space-md)',
                   right: 'var(--space-md)',
-                  background: 'rgba(7, 9, 14, 0.85)',
-                  backdropFilter: 'blur(12px)',
+                  background: 'rgba(7, 9, 14, 0.88)',
+                  backdropFilter: 'blur(16px)',
                   border: '1px solid var(--border-orange)',
                   borderRadius: 'var(--radius-md)',
                   padding: 'var(--space-xs) var(--space-sm)',
@@ -166,7 +171,7 @@ export function HeroSection() {
                   <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)' }}>
                     Nirmal Rajendra Patil
                   </div>
-                  <div style={{ fontSize: '10px', color: 'var(--primary)' }}>
+                  <div style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 'var(--font-weight-medium)' }}>
                     Software Developer Intern @ Evnorix
                   </div>
                 </div>
