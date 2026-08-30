@@ -13,13 +13,13 @@ export function LearningJourneySection() {
     <Section id="learning-journey" spacing="lg">
       <Container size="lg">
         <SectionHeader
-          badge="Growth & Evolution"
-          title="Learning Journey & Skills Progression"
+          badge="Continuous Growth"
+          title="Learning Journey & Progression"
           subtitle="I don't view skills as a finished list. Each project has pushed me to learn something new — from web fundamentals to AI agents and production fintech systems."
         />
 
         {/* TIMELINE PHILOSOPHY BANNER */}
-        <Card variant="glass" style={{ marginBottom: 'var(--space-2xl)', borderLeft: '4px solid var(--secondary)' }}>
+        <Card variant="glass" style={{ marginBottom: 'var(--space-2xl)', borderLeft: '4px solid var(--primary)', boxShadow: 'var(--shadow-glow)' }}>
           <p
             style={{
               fontSize: 'var(--font-size-sm)',
@@ -35,7 +35,7 @@ export function LearningJourneySection() {
         {/* 7-STAGE TIMELINE GRID */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-xl)' }}>
           {LEARNING_STAGES.map((stage) => (
-            <Card key={stage.stageNumber} variant="elevated" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Card key={stage.stageNumber} variant="elevated" interactive style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
                 <Badge variant="primary">{stage.stageNumber}</Badge>
                 <span style={{ fontSize: 'var(--font-size-xl)' }}>{stage.icon}</span>
@@ -45,7 +45,7 @@ export function LearningJourneySection() {
                 {stage.title}
               </h3>
 
-              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--secondary)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-xs)' }}>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--primary)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-xs)' }}>
                 Focus: {stage.learningFocus}
               </div>
 

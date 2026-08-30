@@ -10,6 +10,7 @@ export function Card({
   variant = 'default',
   interactive = false,
   children,
+  className = '',
   style,
   ...props
 }: CardProps) {
@@ -31,10 +32,13 @@ export function Card({
     },
   };
 
+  const combinedClassName = `${interactive ? 'card-hover-orange' : ''} ${className}`.trim();
+
   return (
     <div
+      className={combinedClassName || undefined}
       style={{
-        borderRadius: 'var(--radius-lg)',
+        borderRadius: 'var(--radius-xl)',
         padding: 'var(--space-lg)',
         transition: 'all var(--transition-normal)',
         cursor: interactive ? 'pointer' : 'default',

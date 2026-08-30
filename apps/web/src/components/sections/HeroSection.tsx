@@ -23,7 +23,7 @@ export function HeroSection() {
           {/* TEXT & HERO CONTENT */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
-              <Badge variant="success">🟢 Open to Opportunities</Badge>
+              <Badge variant="primary">🟢 Open to Opportunities</Badge>
               <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
                 SDE Intern @ Evnorix Infotech
               </span>
@@ -38,7 +38,7 @@ export function HeroSection() {
                 letterSpacing: '-0.02em',
               }}
             >
-              Hi, I&apos;m <span style={{ color: 'var(--primary)' }}>{PROFILE_DATA.displayName}</span>
+              Hi, I&apos;m <span className="text-gradient-orange">{PROFILE_DATA.displayName}</span>
             </h1>
 
             <p
@@ -71,6 +71,7 @@ export function HeroSection() {
                 fontSize: 'var(--font-size-xs)',
                 color: 'var(--text-muted)',
                 fontStyle: 'italic',
+                boxShadow: 'var(--shadow-glow)',
               }}
             >
               &ldquo;{PROFILE_DATA.philosophy}&rdquo;
@@ -79,7 +80,7 @@ export function HeroSection() {
             {/* CTAS */}
             <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
               <a href="#projects" style={{ textDecoration: 'none' }}>
-                <Button variant="primary" size="lg">
+                <Button variant="primary" size="lg" style={{ boxShadow: 'var(--shadow-glow)' }}>
                   Explore Projects ➔
                 </Button>
               </a>
@@ -117,9 +118,9 @@ export function HeroSection() {
                 aspectRatio: '4 / 5',
                 borderRadius: 'var(--radius-2xl)',
                 padding: 'var(--space-xs)',
-                background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
-                border: '1px solid var(--border-default)',
-                boxShadow: 'var(--shadow-xl)',
+                background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.4) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                border: '1px solid var(--border-orange)',
+                boxShadow: 'var(--shadow-glow-lg)',
               }}
             >
               <div
@@ -129,7 +130,7 @@ export function HeroSection() {
                   height: '100%',
                   borderRadius: 'var(--radius-xl)',
                   overflow: 'hidden',
-                  background: 'var(--bg-tertiary)',
+                  background: 'var(--bg-elevated)',
                 }}
               >
                 <Image
@@ -149,14 +150,15 @@ export function HeroSection() {
                   bottom: 'var(--space-md)',
                   left: 'var(--space-md)',
                   right: 'var(--space-md)',
-                  background: 'rgba(15, 23, 42, 0.85)',
+                  background: 'rgba(7, 9, 14, 0.85)',
                   backdropFilter: 'blur(12px)',
-                  border: '1px solid var(--border-default)',
+                  border: '1px solid var(--border-orange)',
                   borderRadius: 'var(--radius-md)',
                   padding: 'var(--space-xs) var(--space-sm)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 'var(--space-xs)',
+                  boxShadow: 'var(--shadow-glow)',
                 }}
               >
                 <span style={{ fontSize: 'var(--font-size-md)' }}>💻</span>
@@ -164,7 +166,7 @@ export function HeroSection() {
                   <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)' }}>
                     Nirmal Rajendra Patil
                   </div>
-                  <div style={{ fontSize: '10px', color: 'var(--secondary)' }}>
+                  <div style={{ fontSize: '10px', color: 'var(--primary)' }}>
                     Software Developer Intern @ Evnorix
                   </div>
                 </div>
