@@ -4,10 +4,12 @@ export interface SectionHeaderProps {
   title: string;
   subtitle?: string;
   badge?: string;
+  badgeVariant?: 'primary' | 'secondary';
   align?: 'left' | 'center' | 'right';
 }
 
-export function SectionHeader({ title, subtitle, badge, align = 'left' }: SectionHeaderProps) {
+export function SectionHeader({ title, subtitle, badge, badgeVariant = 'primary', align = 'left' }: SectionHeaderProps) {
+  const isPrimary = badgeVariant === 'primary';
   return (
     <div style={{ textAlign: align, marginBottom: 'var(--space-xl)' }}>
       {badge && (
@@ -18,9 +20,10 @@ export function SectionHeader({ title, subtitle, badge, align = 'left' }: Sectio
             fontSize: 'var(--font-size-xs)',
             fontWeight: 'var(--font-weight-semibold)',
             textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            color: 'var(--secondary)',
-            background: 'var(--secondary-light)',
+            letterSpacing: '0.06em',
+            color: isPrimary ? 'var(--primary)' : 'var(--secondary)',
+            background: isPrimary ? 'var(--primary-light)' : 'var(--secondary-light)',
+            border: isPrimary ? '1px solid var(--border-orange)' : '1px solid rgba(56, 189, 248, 0.25)',
             borderRadius: 'var(--radius-full)',
             marginBottom: 'var(--space-xs)',
           }}
@@ -30,10 +33,11 @@ export function SectionHeader({ title, subtitle, badge, align = 'left' }: Sectio
       )}
       <h2
         style={{
-          fontSize: 'var(--font-size-3xl)',
-          fontWeight: 'var(--font-weight-bold)',
+          fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
+          fontWeight: 'var(--font-weight-extrabold)',
           color: 'var(--text-primary)',
           letterSpacing: '-0.02em',
+          lineHeight: 1.2,
         }}
       >
         {title}
@@ -43,8 +47,9 @@ export function SectionHeader({ title, subtitle, badge, align = 'left' }: Sectio
           style={{
             marginTop: 'var(--space-xs)',
             fontSize: 'var(--font-size-base)',
-            color: 'var(--text-muted)',
-            maxWidth: '650px',
+            color: 'var(--text-secondary)',
+            maxWidth: '680px',
+            lineHeight: 1.6,
             marginLeft: align === 'center' ? 'auto' : undefined,
             marginRight: align === 'center' ? 'auto' : undefined,
           }}

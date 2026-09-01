@@ -8,6 +8,7 @@ import { Container } from '../../components/ui/Container';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
+import { PageHeader } from '../../components/ui/PageHeader';
 import { PROFESSIONAL_EXPERIENCE, LEADERSHIP_EXPERIENCE, AMBASSADOR_EXPERIENCE } from '../../data/experience';
 
 export const metadata: Metadata = {
@@ -24,30 +25,12 @@ export default function ExperiencePage() {
         {/* PAGE HEADER HERO BANNER */}
         <Section id="experience-hero" spacing="md">
           <Container size="lg">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', marginBottom: 'var(--space-xl)' }}>
-              <Badge variant="primary">💼 CAREER & LEADERSHIP STORY</Badge>
-              <h1
-                style={{
-                  fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)',
-                  fontWeight: 'var(--font-weight-extrabold)',
-                  color: 'var(--text-primary)',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.1,
-                }}
-              >
-                Professional <span className="text-gradient-orange">Experience &amp; Internships</span>
-              </h1>
-              <p
-                style={{
-                  fontSize: 'var(--font-size-base)',
-                  color: 'var(--text-secondary)',
-                  maxWidth: '750px',
-                  lineHeight: 1.6,
-                }}
-              >
-                Verified software development roles, backend engineering internships, student body leadership positions, and ambassador initiatives.
-              </p>
-            </div>
+            <PageHeader
+              badge="💼 CAREER & LEADERSHIP STORY"
+              title="Professional"
+              highlightText="Experience & Internships"
+              description="Verified software development roles, backend engineering internships, student body leadership positions, and ambassador initiatives."
+            />
           </Container>
         </Section>
 

@@ -27,6 +27,7 @@ export function Button({
       background: 'var(--primary)',
       color: '#ffffff',
       border: 'none',
+      boxShadow: 'var(--shadow-glow)',
     },
     secondary: {
       background: 'var(--bg-elevated)',

@@ -9,16 +9,24 @@ import { Container } from '../../components/ui/Container';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
+import { Tag } from '../../components/ui/Tag';
+import { PageHeader } from '../../components/ui/PageHeader';
 import { PROJECTS_DATA, ProjectData } from '../../data/projects';
 
 const CATEGORIES = ['All', 'Featured', 'Product / Professional', 'Supporting', 'Archive & Learning'];
 
 export default function ProjectsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   const filteredProjects = selectedCategory === 'All'
     ? PROJECTS_DATA
+    : selectedCategory === 'Featured'
+    ? PROJECTS_DATA.filter((p) => p.featured)
     : PROJECTS_DATA.filter((p) => p.category === selectedCategory);
+
+  const featuredCount = PROJECTS_DATA.filter((p) => p.featured).length;
+  const liveCount = PROJECTS_DATA.filter((p) => p.liveUrl).length;
+  const repoCount = PROJECTS_DATA.filter((p) => p.githubUrl).length;
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
@@ -28,63 +36,82 @@ export default function ProjectsPage() {
         {/* HERO BANNER */}
         <Section id="projects-hero" spacing="md">
           <Container size="lg">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', marginBottom: 'var(--space-lg)' }}>
-              <Badge variant="primary">🚀 FEATURED PRODUCT SHOWCASE</Badge>
-              <h1
-                style={{
-                  fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)',
-                  fontWeight: 'var(--font-weight-extrabold)',
-                  color: 'var(--text-primary)',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.1,
-                }}
-              >
-                Engineering &amp; <span className="text-gradient-orange">Project Portfolio</span>
-              </h1>
-              <p
-                style={{
-                  fontSize: 'var(--font-size-base)',
-                  color: 'var(--text-secondary)',
-                  maxWidth: '750px',
-                  lineHeight: 1.6,
-                }}
-              >
-                Full-stack web applications, AI-assisted platforms, production B2B services, and backend systems built with modern web technologies.
-              </p>
+            <PageHeader
+              badge="🚀 FEATURED PRODUCT SHOWCASE"
+              title="Engineering &"
+              highlightText="Project Portfolio"
+              description="Explore full-stack web applications, AI-assisted platforms, production B2B services, and backend systems built with modern web technologies."
+            />
+
+            {/* REAL PORTFOLIO SUMMARY STATS */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: 'var(--space-md)',
+                marginBottom: 'var(--space-xl)',
+              }}
+            >
+              <Card variant="elevated" style={{ padding: 'var(--space-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-extrabold)', color: 'var(--primary)' }}>
+                  {PROJECTS_DATA.length}
+                </div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Total Projects
+                </div>
+              </Card>
+              <Card variant="elevated" style={{ padding: 'var(--space-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-extrabold)', color: 'var(--primary)' }}>
+                  {featuredCount}
+                </div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Featured Products
+                </div>
+              </Card>
+              <Card variant="elevated" style={{ padding: 'var(--space-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-extrabold)', color: 'var(--secondary)' }}>
+                  {repoCount}
+                </div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  GitHub Repositories
+                </div>
+              </Card>
+              <Card variant="elevated" style={{ padding: 'var(--space-md)', textAlign: 'center' }}>
+                <div style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 'var(--font-weight-extrabold)', color: 'var(--success)' }}>
+                  {liveCount}
+                </div>
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Deployed Live Demos
+                </div>
+              </Card>
             </div>
 
             {/* CATEGORY TAG FILTERS */}
-            <div style={{ display: 'flex', gap: 'var(--space-xs)', flexWrap: 'wrap', marginBottom: 'var(--space-xl)' }}>
-              {CATEGORIES.map((cat) => {
-                const isActive = selectedCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    style={{
-                      background: isActive ? 'var(--primary)' : 'var(--bg-elevated)',
-                      color: isActive ? '#ffffff' : 'var(--text-secondary)',
-                      border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
-                      padding: 'var(--space-xs) var(--space-md)',
-                      borderRadius: 'var(--radius-full)',
-                      fontSize: 'var(--font-size-xs)',
-                      fontWeight: isActive ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
-                      cursor: 'pointer',
-                      boxShadow: isActive ? 'var(--shadow-glow)' : 'none',
-                      transition: 'all var(--transition-fast)',
-                    }}
-                  >
-                    {cat}
-                  </button>
-                );
-              })}
+            <div
+              style={{
+                display: 'flex',
+                gap: 'var(--space-xs)',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                marginBottom: 'var(--space-xl)',
+                paddingBottom: 'var(--space-sm)',
+                borderBottom: '1px solid var(--border-subtle)',
+              }}
+            >
+              <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)', marginRight: 'var(--space-2xs)' }}>
+                Filter By Category:
+              </span>
+              {CATEGORIES.map((cat) => (
+                <Tag
+                  key={cat}
+                  label={cat}
+                  active={selectedCategory === cat}
+                  onClick={() => setSelectedCategory(cat)}
+                />
+              ))}
             </div>
-          </Container>
-        </Section>
 
-        {/* PROJECTS GRID SHOWCASE */}
-        <Section id="projects-grid" spacing="lg">
-          <Container size="lg">
+            {/* PROJECTS GRID */}
             <div
               style={{
                 display: 'grid',
@@ -95,32 +122,31 @@ export default function ProjectsPage() {
               {filteredProjects.map((project: ProjectData) => (
                 <Card
                   key={project.id}
-                  variant={project.featured ? 'glass' : 'elevated'}
+                  variant="glass"
                   interactive
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
+                    height: '100%',
                     border: project.featured ? '1px solid var(--border-orange)' : '1px solid var(--border-subtle)',
                   }}
                 >
                   <div>
-                    {/* CARD HEADER & BADGES */}
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-xs)', marginBottom: 'var(--space-xs)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xs)', gap: '4px', flexWrap: 'wrap' }}>
                       <Badge variant={project.featured ? 'primary' : 'neutral'}>
-                        {project.category}
+                        {project.featured ? '⭐ Featured' : project.category}
                       </Badge>
                       <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 'var(--font-weight-medium)' }}>
                         {project.status}
                       </span>
                     </div>
 
-                    {/* TITLE & SUBTITLE */}
-                    <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)', marginBottom: '4px' }}>
+                    <h3 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)', marginBottom: '4px', lineHeight: 1.25 }}>
                       {project.title}
-                    </h2>
+                    </h3>
                     {project.subtitle && (
-                      <div style={{ fontSize: 'var(--font-size-xs)', fontWeight: 'var(--font-weight-medium)', color: 'var(--primary)', marginBottom: 'var(--space-xs)' }}>
+                      <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--primary)', fontWeight: 'var(--font-weight-medium)', marginBottom: 'var(--space-xs)' }}>
                         {project.subtitle}
                       </div>
                     )}
@@ -129,59 +155,38 @@ export default function ProjectsPage() {
                       {project.oneLiner}
                     </p>
 
-                    {/* ROLE BADGE */}
-                    <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: 'var(--space-sm)' }}>
-                      Role: {project.role}
-                    </div>
-
-                    {/* FEATURES LIST */}
-                    <div style={{ marginBottom: 'var(--space-md)' }}>
-                      <div style={{ fontSize: '11px', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-muted)', marginBottom: 'var(--space-2xs)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                        Highlights &amp; Features:
-                      </div>
-                      <ul style={{ paddingLeft: '1.1rem', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                        {project.features.slice(0, 3).map((f, i) => (
-                          <li key={i} style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                            {f}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* CARD FOOTER: TECH TAGS & LINKS */}
-                  <div>
-                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: 'var(--space-md)', paddingTop: 'var(--space-xs)', borderTop: '1px solid var(--border-subtle)' }}>
-                      {project.technologies.map((tech, i) => (
+                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginBottom: 'var(--space-md)' }}>
+                      {project.technologies.slice(0, 5).map((tech, i) => (
                         <Badge key={i} variant="neutral">
                           {tech}
                         </Badge>
                       ))}
+                      {project.technologies.length > 5 && (
+                        <Badge variant="neutral">+{project.technologies.length - 5}</Badge>
+                      )}
                     </div>
+                  </div>
 
-                    <div style={{ display: 'flex', gap: 'var(--space-xs)', alignItems: 'center', flexWrap: 'wrap' }}>
-                      <Link href={`/projects/${project.slug}`} style={{ textDecoration: 'none', flex: 1 }}>
-                        <Button variant="secondary" size="sm" style={{ width: '100%', fontSize: '12px' }}>
-                          View Case Study ➔
+                  <div style={{ display: 'flex', gap: 'var(--space-2xs)', flexWrap: 'wrap', paddingTop: 'var(--space-xs)', borderTop: '1px solid var(--border-subtle)', marginTop: 'auto' }}>
+                    <Link href={`/projects/${project.slug}`} style={{ textDecoration: 'none', flex: 1, minWidth: '120px' }}>
+                      <Button variant="secondary" size="sm" style={{ width: '100%', fontSize: '12px' }}>
+                        Case Study ➔
+                      </Button>
+                    </Link>
+                    {project.githubUrl && (
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <Button variant="ghost" size="sm" style={{ fontSize: '12px' }}>
+                          Code 🐙
                         </Button>
-                      </Link>
-
-                      {project.githubUrl && (
-                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                          <Button variant="ghost" size="sm" style={{ fontSize: '12px' }}>
-                            GitHub ↗
-                          </Button>
-                        </a>
-                      )}
-
-                      {project.liveUrl && (
-                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                          <Button variant="primary" size="sm" style={{ fontSize: '12px' }}>
-                            Live Demo ↗
-                          </Button>
-                        </a>
-                      )}
-                    </div>
+                      </a>
+                    )}
+                    {project.liveUrl && (
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <Button variant="primary" size="sm" style={{ fontSize: '12px' }}>
+                          Live 🚀
+                        </Button>
+                      </a>
+                    )}
                   </div>
                 </Card>
               ))}
