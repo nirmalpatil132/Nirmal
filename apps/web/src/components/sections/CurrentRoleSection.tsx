@@ -19,7 +19,7 @@ export function CurrentRoleSection() {
         <Card variant="glass" style={{ borderLeft: '4px solid var(--primary)', padding: 'var(--space-xl)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--space-md)', marginBottom: 'var(--space-md)' }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', marginBottom: 'var(--space-2xs)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', marginBottom: 'var(--space-2xs)', flexWrap: 'wrap' }}>
                 <Badge variant="success">⚡ Active Professional Role</Badge>
                 <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>{currentRole.period}</span>
               </div>
@@ -31,7 +31,7 @@ export function CurrentRoleSection() {
               </div>
             </div>
 
-            <div style={{ textAlign: 'right', fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
+            <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>
               <div>📍 {currentRole.location}</div>
               <div style={{ color: 'var(--success)', marginTop: '2px' }}>🟢 Open to New Opportunities</div>
             </div>

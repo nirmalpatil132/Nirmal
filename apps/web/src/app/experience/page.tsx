@@ -142,7 +142,7 @@ export default function ExperiencePage() {
                 </h2>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-md)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-md)' }}>
                 {LEADERSHIP_EXPERIENCE.map((lead) => (
                   <Card key={lead.id} variant="glass" interactive>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--space-2xs)', marginBottom: 'var(--space-xs)' }}>
@@ -187,7 +187,7 @@ export default function ExperiencePage() {
                 </h2>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-md)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-md)' }}>
                 {AMBASSADOR_EXPERIENCE.map((amb) => (
                   <Card key={amb.id} variant="elevated" interactive>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-2xs)' }}>

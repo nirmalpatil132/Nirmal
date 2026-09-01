@@ -59,7 +59,7 @@ export function EducationSection() {
                 />
 
                 {/* EDUCATION CARD */}
-                <Card variant="elevated" interactive style={{ flex: 1, borderLeft: '3px solid var(--primary)' }}>
+                <Card variant="elevated" interactive style={{ flex: 1, minWidth: 0, borderLeft: '3px solid var(--primary)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--space-xs)', marginBottom: 'var(--space-xs)' }}>
                     <div>
                       <Badge variant="primary" style={{ marginBottom: '4px' }}>{edu.fieldOfStudy}</Badge>

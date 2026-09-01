@@ -33,7 +33,7 @@ export function LearningJourneySection() {
         </Card>
 
         {/* 7-STAGE TIMELINE GRID */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 'var(--space-xl)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-xl)' }}>
           {LEARNING_STAGES.map((stage) => (
             <Card key={stage.stageNumber} variant="elevated" interactive style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>

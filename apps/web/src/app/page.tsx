@@ -93,7 +93,7 @@ export default function PortfolioHomePage() {
               </Link>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 'var(--space-lg)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-lg)' }}>
               {featuredProjects.map((project) => (
                 <Card key={project.id} variant="glass" interactive style={{ border: '1px solid var(--border-orange)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-xs)' }}>
@@ -178,7 +178,7 @@ export default function PortfolioHomePage() {
                 Navigate directly to specific areas of interest or reach out for professional engineering inquiries.
               </p>
 
-              <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
+              <div className="responsive-btn-group" style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-sm)', flexWrap: 'wrap' }}>
                 <Link href="/experience" style={{ textDecoration: 'none' }}>
                   <Button variant="primary" size="lg" style={{ boxShadow: 'var(--shadow-glow)' }}>
                     💼 Experience &amp; Roles

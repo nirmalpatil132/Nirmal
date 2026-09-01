@@ -18,7 +18,7 @@ export function AchievementsSection() {
           subtitle="National entrepreneurship competition victories at IIT Bombay, research paper submissions, and leadership achievements."
         />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-xl)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-xl)' }}>
           {ACHIEVEMENTS_DATA.map((ach) => (
             <Card key={ach.id} variant="elevated">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-sm)' }}>

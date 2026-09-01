@@ -10,6 +10,8 @@ export function Input({ error = false, style, disabled, ...props }: InputProps) 
       disabled={disabled}
       style={{
         width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
         padding: 'var(--space-xs) var(--space-md)',
         fontSize: 'var(--font-size-base)',
         color: 'var(--text-primary)',

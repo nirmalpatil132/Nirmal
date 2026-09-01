@@ -28,7 +28,7 @@ export function SocialLinksSection() {
             <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)' }}>
               Primary Developer Profiles
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-md)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-md)' }}>
               {primaryLinks.map((link) => (
                 <Card key={link.platform} variant="elevated" interactive>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -57,7 +57,7 @@ export function SocialLinksSection() {
             <h3 style={{ fontSize: 'var(--font-size-md)', fontWeight: 'var(--font-weight-semibold)', color: 'var(--text-secondary)', marginBottom: 'var(--space-sm)' }}>
               Developer, Hackathon & Design Profiles
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--space-md)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-md)' }}>
               {developerLinks.map((link) => (
                 <Card key={link.platform} variant="default" interactive>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

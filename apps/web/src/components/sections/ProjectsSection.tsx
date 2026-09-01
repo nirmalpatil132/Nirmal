@@ -57,13 +57,13 @@ export function ProjectsSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: 'var(--space-xl)',
           }}
         >
           {filteredProjects.map((project) => (
             <Card key={project.id} variant="elevated" interactive style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-xs)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-xs)', flexWrap: 'wrap', gap: '4px' }}>
                 <Badge variant={project.featured ? 'primary' : 'neutral'}>
                   {project.featured ? '⭐ Featured Project' : project.category}
                 </Badge>
@@ -99,7 +99,7 @@ export function ProjectsSection() {
               </div>
 
               {/* CARD ACTIONS */}
-              <div style={{ display: 'flex', gap: 'var(--space-xs)', paddingTop: 'var(--space-sm)', borderTop: '1px solid var(--border-subtle)', marginTop: 'auto' }}>
+              <div style={{ display: 'flex', gap: 'var(--space-xs)', paddingTop: 'var(--space-sm)', borderTop: '1px solid var(--border-subtle)', marginTop: 'auto', flexWrap: 'wrap' }}>
                 <Button variant="secondary" size="sm" fullWidth onClick={() => setActiveModalProject(project)}>
                   Details &amp; Case Study ➔
                 </Button>

@@ -18,7 +18,7 @@ export function AboutSection() {
           subtitle="From building initial programming scripts to developing full-stack web applications, AI systems, and enterprise fintech software."
         />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-2xl)', alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-2xl)', alignItems: 'start' }}>
           {/* STORY CARD */}
           <Card variant="elevated">
             <h3 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-md)' }}>

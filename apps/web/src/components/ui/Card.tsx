@@ -38,10 +38,15 @@ export function Card({
     <div
       className={combinedClassName || undefined}
       style={{
+        width: '100%',
+        maxWidth: '100%',
+        boxSizing: 'border-box',
+        minWidth: 0,
         borderRadius: 'var(--radius-xl)',
         padding: 'var(--space-lg)',
         transition: 'all var(--transition-normal)',
         cursor: interactive ? 'pointer' : 'default',
+        overflowWrap: 'break-word',
         ...variantStyles[variant],
         ...style,
       }}

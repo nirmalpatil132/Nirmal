@@ -16,13 +16,13 @@ export function HeroSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: 'var(--space-3xl)',
             alignItems: 'center',
           }}
         >
           {/* LEFT COLUMN: HEADLINE, NARRATIVE & CTAS */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', minWidth: 0 }}>
             {/* SUBTITLE BADGE */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-xs)', flexWrap: 'wrap' }}>
               <Badge variant="primary">⚡ SDE INTERN @ EVNORIX INFOTECH</Badge>
@@ -34,7 +34,7 @@ export function HeroSection() {
             {/* OVERSIZED HEADLINE */}
             <h1
               style={{
-                fontSize: 'clamp(2.5rem, 5.5vw, 3.8rem)',
+                fontSize: 'clamp(2.2rem, 5.5vw, 3.8rem)',
                 fontWeight: 'var(--font-weight-extrabold)',
                 lineHeight: 1.1,
                 color: 'var(--text-primary)',
@@ -84,7 +84,7 @@ export function HeroSection() {
             </div>
 
             {/* CTA BUTTON SYSTEM */}
-            <div style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
+            <div className="responsive-btn-group" style={{ display: 'flex', gap: 'var(--space-sm)', flexWrap: 'wrap', marginTop: 'var(--space-xs)' }}>
               <Link href="/projects" style={{ textDecoration: 'none' }}>
                 <Button variant="primary" size="lg" style={{ boxShadow: 'var(--shadow-glow-lg)' }}>
                   Explore My Work ➔

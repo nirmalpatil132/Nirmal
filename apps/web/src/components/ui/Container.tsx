@@ -21,6 +21,7 @@ export function Container({ size = 'lg', children, style, ...props }: ContainerP
         margin: '0 auto',
         paddingLeft: 'var(--space-md)',
         paddingRight: 'var(--space-md)',
+        boxSizing: 'border-box',
         ...style,
       }}
       {...props}
