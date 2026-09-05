@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
+import { PROFILE_DATA } from '../../data/profile';
 
 export interface NavItem {
   label: string;
@@ -179,11 +180,22 @@ export function Navbar() {
                 );
               })}
 
-              <Link href="/design-system" style={{ textDecoration: 'none', marginLeft: '6px' }}>
+              <Link href="/design-system" style={{ textDecoration: 'none', marginLeft: '4px' }}>
                 <Button variant="ghost" size="sm" style={{ fontSize: '11px' }}>
                   Design System ↗
                 </Button>
               </Link>
+
+              <a
+                href={PROFILE_DATA.resumePdfPath}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', marginLeft: '6px' }}
+              >
+                <Button variant="secondary" size="sm" style={{ fontSize: '11px', borderColor: 'var(--border-orange)', padding: '5px 10px' }}>
+                  Resume 📄
+                </Button>
+              </a>
             </nav>
 
             {/* MOBILE HAMBURGER BUTTON */}
@@ -217,23 +229,87 @@ export function Navbar() {
         <div
           style={{
             position: 'fixed',
-            top: '4.25rem',
+            top: 0,
             left: 0,
             right: 0,
             bottom: 0,
-            height: 'calc(100dvh - 4.25rem)',
+            height: '100dvh',
             width: '100vw',
             maxWidth: '100vw',
             boxSizing: 'border-box',
-            background: '#07090E', // Opaque near-black background to completely block out Hero content
-            borderTop: '1px solid var(--border-subtle)',
-            zIndex: 999999, // Super high z-index to sit above all page content and sticky elements
+            background: '#07090e',
+            zIndex: 999999,
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
           }}
           className="show-mobile"
         >
+          {/* DRAWER TOP HEADER BAR */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '0 var(--space-md)',
+              height: '4.25rem',
+              borderBottom: '1px solid var(--border-subtle)',
+              background: '#07090e',
+              flexShrink: 0,
+              boxSizing: 'border-box',
+            }}
+          >
+            {/* BRAND LOGO */}
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{
+                textDecoration: 'none',
+                fontSize: 'var(--font-size-lg)',
+                fontWeight: 'var(--font-weight-bold)',
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}
+            >
+              <span style={{ color: 'var(--primary)' }}>NIRMAL</span>
+              <span style={{ color: 'var(--text-muted)' }}>PATIL</span>
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: 'var(--primary)',
+                  boxShadow: '0 0 8px var(--primary)',
+                  display: 'inline-block',
+                }}
+              />
+            </Link>
+
+            {/* CLOSE BUTTON */}
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close Navigation Menu"
+              style={{
+                background: 'var(--bg-elevated)',
+                border: '1px solid var(--border-default)',
+                borderRadius: 'var(--radius-md)',
+                color: 'var(--text-primary)',
+                fontSize: '1.25rem',
+                padding: '6px 12px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '40px',
+                minWidth: '40px',
+              }}
+            >
+              ✕
+            </button>
+          </div>
+
           {/* INTERNAL SCROLLABLE CONTENT AREA */}
           <div
             style={{
@@ -246,13 +322,14 @@ export function Navbar() {
               gap: 'var(--space-lg)',
               maxWidth: '100%',
               boxSizing: 'border-box',
+              background: 'radial-gradient(circle at 85% 15%, rgba(255, 107, 0, 0.05) 0%, transparent 40%), #07090e',
             }}
           >
-            {/* SECTION 1: PRIMARY NAVIGATION (MAIN PAGES) */}
+            {/* SECTION 1: PRIMARY NAVIGATION */}
             <div>
               <div
                 style={{
-                  fontSize: '10px',
+                  fontSize: '11px',
                   fontWeight: 'var(--font-weight-bold)',
                   color: 'var(--text-muted)',
                   marginBottom: 'var(--space-xs)',
@@ -267,7 +344,7 @@ export function Navbar() {
                 style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: '8px',
+                  gap: '10px',
                 }}
               >
                 {ROUTE_ITEMS.map((item) => {
@@ -281,20 +358,21 @@ export function Navbar() {
                         textDecoration: 'none',
                         fontSize: 'var(--font-size-sm)',
                         fontWeight: isActive ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
-                        color: isActive ? 'var(--primary)' : 'var(--text-primary)',
-                        padding: '10px 12px',
-                        background: isActive ? 'var(--primary-light)' : 'var(--bg-secondary)',
-                        border: isActive ? '1px solid var(--border-orange)' : '1px solid var(--border-subtle)',
+                        color: isActive ? '#ffffff' : 'var(--text-secondary)',
+                        padding: '12px 14px',
+                        background: isActive ? 'rgba(255, 107, 0, 0.15)' : 'var(--bg-secondary)',
+                        border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
                         borderRadius: 'var(--radius-md)',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px',
-                        minHeight: '44px',
+                        gap: '10px',
+                        minHeight: '48px',
                         boxSizing: 'border-box',
                         transition: 'all var(--transition-fast)',
+                        boxShadow: isActive ? '0 0 16px rgba(255, 107, 0, 0.25)' : '0 2px 6px rgba(0, 0, 0, 0.3)',
                       }}
                     >
-                      <span style={{ fontSize: '1rem' }}>{item.icon}</span>
+                      <span style={{ fontSize: '1.1rem', width: '22px', textAlign: 'center' }}>{item.icon}</span>
                       <span>{item.label}</span>
                     </Link>
                   );
@@ -302,11 +380,11 @@ export function Navbar() {
               </div>
             </div>
 
-            {/* SECTION 2: SECONDARY QUICK SECTIONS (LIGHTWEIGHT ROW LIST) */}
+            {/* SECTION 2: RESUME & QUICK ACCESS */}
             <div>
               <div
                 style={{
-                  fontSize: '10px',
+                  fontSize: '11px',
                   fontWeight: 'var(--font-weight-bold)',
                   color: 'var(--text-muted)',
                   marginBottom: 'var(--space-xs)',
@@ -314,9 +392,40 @@ export function Navbar() {
                   letterSpacing: '0.08em',
                 }}
               >
-                Quick Access Sections
+                Resume &amp; Quick Access
               </div>
 
+              {/* RESUME CTA */}
+              <a
+                href={PROFILE_DATA.resumePdfPath}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  textDecoration: 'none',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  minHeight: '48px',
+                  padding: '12px 20px',
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border-orange)',
+                  borderRadius: 'var(--radius-md)',
+                  color: '#ffffff',
+                  fontWeight: 'var(--font-weight-bold)',
+                  fontSize: 'var(--font-size-sm)',
+                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.4), 0 0 16px rgba(255, 107, 0, 0.2)',
+                  boxSizing: 'border-box',
+                  marginBottom: 'var(--space-md)',
+                }}
+              >
+                <span>📄 View / Download Resume (PDF)</span>
+                <span style={{ color: 'var(--primary)' }}>↗</span>
+              </a>
+
+              {/* QUICK ACCESS SECTIONS */}
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {HOMEPAGE_SECTIONS.map((sec) => (
                   <Link
@@ -338,7 +447,7 @@ export function Navbar() {
                       transition: 'color var(--transition-fast)',
                     }}
                   >
-                    <span style={{ fontSize: '0.9rem' }}>{sec.icon}</span>
+                    <span style={{ fontSize: '0.9rem', width: '20px', textAlign: 'center' }}>{sec.icon}</span>
                     <span>{sec.label}</span>
                   </Link>
                 ))}
@@ -357,7 +466,7 @@ export function Navbar() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  padding: '6px 12px',
+                  padding: '8px 16px',
                   borderRadius: 'var(--radius-sm)',
                   border: '1px solid var(--border-subtle)',
                   background: 'var(--bg-secondary)',

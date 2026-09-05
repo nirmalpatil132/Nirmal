@@ -52,23 +52,29 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
               Portfolio Navigation
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-2xs)', fontSize: 'var(--font-size-xs)' }}>
-              <a href="#about" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>About</a>
-              <a href="#current-role" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Current Role</a>
-              <a href="#experience" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Experience</a>
-              <a href="#projects" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Projects</a>
-              <a href="#learning-journey" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Journey</a>
-              <a href="#skills" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Skills</a>
-              <a href="#education" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Education</a>
-              <a href="#certificates" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Certificates</a>
-              <a href="#achievements" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Achievements</a>
-              <a href="#contact" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact</a>
+              <Link href="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
+              <Link href="/about" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>About</Link>
+              <Link href="/experience" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Experience</Link>
+              <Link href="/projects" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Projects</Link>
+              <Link href="/skills" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Skills</Link>
+              <Link href="/journey" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Journey</Link>
+              <Link href="/achievements" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Achievements</Link>
+              <Link href="/contact" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Contact</Link>
+              <a
+                href={PROFILE_DATA.resumePdfPath}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 'var(--font-weight-semibold)', gridColumn: 'span 2', marginTop: '4px' }}
+              >
+                📄 Verified Resume (PDF) ↗
+              </a>
             </div>
           </div>
 
           {/* SYSTEM ARCHITECTURE & SOCIAL */}
           <div>
             <div style={{ fontSize: 'var(--font-size-sm)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-sm)' }}>
-              Developer & Architecture
+              Developer &amp; Architecture
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', fontSize: 'var(--font-size-xs)' }}>
               <Link href="/design-system" style={{ color: 'var(--secondary)', textDecoration: 'none' }}>
@@ -91,7 +97,7 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
                 </button>
               )}
               <div style={{ display: 'flex', gap: 'var(--space-xs)', marginTop: 'var(--space-xs)', flexWrap: 'wrap' }}>
-                {SOCIAL_LINKS.slice(0, 4).map((link) => (
+                {SOCIAL_LINKS.slice(0, 5).map((link) => (
                   <a key={link.platform} href={link.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                     <Button variant="secondary" size="sm" style={{ fontSize: '11px' }}>
                       {link.icon} {link.platform}

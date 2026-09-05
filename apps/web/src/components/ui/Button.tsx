@@ -14,30 +14,33 @@ export function Button({
   disabled,
   children,
   style,
+  className = '',
   ...props
 }: ButtonProps) {
   const sizeStyles = {
-    sm: { padding: 'var(--space-2xs) var(--space-sm)', fontSize: 'var(--font-size-sm)' },
-    md: { padding: 'var(--space-xs) var(--space-lg)', fontSize: 'var(--font-size-base)' },
-    lg: { padding: 'var(--space-sm) var(--space-xl)', fontSize: 'var(--font-size-lg)' },
+    sm: { minHeight: '36px', padding: '6px 14px', fontSize: 'var(--font-size-xs)' },
+    md: { minHeight: '44px', padding: '10px 20px', fontSize: 'var(--font-size-sm)' },
+    lg: { minHeight: '52px', padding: '14px 28px', fontSize: 'var(--font-size-base)' },
   };
 
   const variantStyles: Record<string, React.CSSProperties> = {
     primary: {
-      background: 'var(--primary)',
+      background: 'linear-gradient(135deg, #ff7a1a 0%, #ff6b00 100%)',
       color: '#ffffff',
-      border: 'none',
-      boxShadow: 'var(--shadow-glow)',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      boxShadow: '0 4px 14px rgba(255, 107, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25)',
     },
     secondary: {
       background: 'var(--bg-elevated)',
       color: 'var(--text-primary)',
       border: '1px solid var(--border-default)',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06)',
     },
     ghost: {
-      background: 'transparent',
-      color: 'var(--text-primary)',
+      background: 'rgba(255, 255, 255, 0.03)',
+      color: 'var(--text-secondary)',
       border: '1px solid var(--border-subtle)',
+      boxShadow: '0 1px 4px rgba(0, 0, 0, 0.2)',
     },
     text: {
       background: 'transparent',
@@ -45,17 +48,19 @@ export function Button({
       border: 'none',
       paddingLeft: 0,
       paddingRight: 0,
+      minHeight: 'auto',
     },
     danger: {
       background: 'var(--error)',
       color: '#ffffff',
-      border: 'none',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
     },
   };
 
   return (
     <button
       disabled={disabled}
+      className={`btn btn-${variant} btn-${size} ${className}`}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
