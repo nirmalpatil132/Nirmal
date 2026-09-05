@@ -373,3 +373,46 @@ img, svg, video, iframe {
   color: var(--text-primary) !important;
   box-shadow: 0 0 12px rgba(255, 107, 0, 0.2) !important;
 }
+
+/* Phase 13 Hero & Capability Strip Styling */
+.capability-pill-hover {
+  transition: all var(--transition-normal);
+}
+
+.capability-pill-hover:hover {
+  border-color: var(--border-orange) !important;
+  background: rgba(21, 27, 40, 0.85) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(255, 107, 0, 0.2) !important;
+}
+
+@media (max-width: 900px) {
+  .hero-grid-responsive {
+    grid-template-columns: 1fr !important;
+    text-align: center;
+    gap: 2rem !important;
+  }
+  .hero-grid-responsive > div:first-child {
+    margin: 0 auto;
+    align-items: center;
+  }
+  .hero-grid-responsive .responsive-btn-group {
+    justify-content: center !important;
+  }
+  .hero-portrait-container {
+    order: -1;
+    min-height: 280px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-capability-strip {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-capability-strip {
+    grid-template-columns: 1fr !important;
+  }
+}
