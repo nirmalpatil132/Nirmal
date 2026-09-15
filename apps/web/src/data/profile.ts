@@ -1,3 +1,5 @@
+import { getAssetPath } from '../utils/assets';
+
 export interface ProfileData {
   fullName: string;
   displayName: string;
@@ -15,11 +17,10 @@ export interface ProfileData {
   contactEmail: string;
   contactPhone: string;
   profileImagePath: string;
+  heroPortraitPath: string;
   resumePdfPath: string;
   identityTags: string[];
 }
-
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? (process.env.GITHUB_ACTIONS === 'true' ? '/Nirmal' : '');
 
 export const PROFILE_DATA: ProfileData = {
   fullName: 'Nirmal Rajendra Patil',
@@ -40,8 +41,9 @@ export const PROFILE_DATA: ProfileData = {
   philosophy: 'I learn by building — turning ideas, problems, and emerging technologies into practical digital products.',
   contactEmail: 'nirmalpatil615@gmail.com',
   contactPhone: '+91 93223 51145',
-  profileImagePath: `${basePath}/images/nirmal-passport-photo.png`,
-  resumePdfPath: `${basePath}/resume/Nirmal_Patil_Resume.pdf`,
+  profileImagePath: getAssetPath('/images/nirmal-passport-photo.png'),
+  heroPortraitPath: getAssetPath('/images/nirmal-hero-portrait.png'),
+  resumePdfPath: getAssetPath('/resume/Nirmal_Patil_Resume.pdf'),
   identityTags: [
     'Software Developer',
     'Full-Stack Development',

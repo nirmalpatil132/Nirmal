@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { PROFILE_DATA } from '../data/profile';
 import { SOCIAL_LINKS } from '../data/social';
+import { getAbsoluteAssetUrl } from '../utils/assets';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil.dev';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil132.github.io/Nirmal';
+const ogImageUrl = getAbsoluteAssetUrl('/images/nirmal-passport-photo.png', siteUrl);
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
     description: `${PROFILE_DATA.headline}. ${PROFILE_DATA.tagline}`,
     images: [
       {
-        url: PROFILE_DATA.profileImagePath,
+        url: ogImageUrl,
         width: 800,
         height: 800,
         alt: `${PROFILE_DATA.displayName} - Software Developer`,
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
     title: `${PROFILE_DATA.displayName} | Software Developer`,
     description: PROFILE_DATA.headline,
     creator: '@_patil_nirmal',
-    images: [PROFILE_DATA.profileImagePath],
+    images: [ogImageUrl],
   },
   robots: {
     index: true,
@@ -91,7 +93,7 @@ export default function RootLayout({
         },
         description: PROFILE_DATA.headline,
         url: siteUrl,
-        image: `${siteUrl}${PROFILE_DATA.profileImagePath}`,
+        image: ogImageUrl,
         email: PROFILE_DATA.contactEmail,
         telephone: PROFILE_DATA.contactPhone,
         address: {

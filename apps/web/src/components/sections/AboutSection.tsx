@@ -415,7 +415,7 @@ export function AboutSection() {
                 }}
               >
                 <Image
-                  src="/images/nirmal-hero-portrait.png"
+                  src={PROFILE_DATA.heroPortraitPath}
                   alt="Nirmal Patil — Software Developer Intern"
                   width={420}
                   height={500}

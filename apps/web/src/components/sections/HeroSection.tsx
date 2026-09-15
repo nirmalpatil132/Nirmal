@@ -334,7 +334,7 @@ export function HeroSection() {
               }}
             >
               <Image
-                src="/images/nirmal-hero-portrait.png"
+                src={PROFILE_DATA.heroPortraitPath}
                 alt="Nirmal Patil — Software Developer"
                 fill
                 sizes="(max-width: 768px) 95vw, (max-width: 1200px) 55vw, 540px"
