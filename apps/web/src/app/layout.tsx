@@ -3,6 +3,7 @@ import './globals.css';
 import { PROFILE_DATA } from '../data/profile';
 import { SOCIAL_LINKS } from '../data/social';
 import { getAbsoluteAssetUrl, getCanonicalUrl } from '../utils/assets';
+import { WhatsAppAssistant } from '../components/ui/WhatsAppAssistant';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil132.github.io/Nirmal';
 const ogImageUrl = getAbsoluteAssetUrl('/images/nirmal-passport-photo.png', siteUrl);
@@ -124,7 +125,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <WhatsAppAssistant />
+      </body>
     </html>
   );
 }

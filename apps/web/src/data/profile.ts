@@ -53,3 +53,17 @@ export const PROFILE_DATA: ProfileData = {
     'Product Building',
   ],
 };
+
+export const WHATSAPP_CONFIG = {
+  rawPhone: PROFILE_DATA.contactPhone,
+  number: PROFILE_DATA.contactPhone.replace(/[^0-9]/g, ''),
+  defaultMessage:
+    'Hi Nirmal, I visited your portfolio and would like to discuss an opportunity/project with you.',
+  getDeepLink: (customMessage?: string) => {
+    const text =
+      customMessage ||
+      'Hi Nirmal, I visited your portfolio and would like to discuss an opportunity/project with you.';
+    const digits = PROFILE_DATA.contactPhone.replace(/[^0-9]/g, '');
+    return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+  },
+};

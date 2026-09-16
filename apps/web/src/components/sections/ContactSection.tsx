@@ -6,7 +6,7 @@ import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { submitContactForm } from '../../lib/api/contact';
 import { ContactFormInput } from '@nirmal/validation';
-import { PROFILE_DATA } from '../../data/profile';
+import { PROFILE_DATA, WHATSAPP_CONFIG } from '../../data/profile';
 import { SOCIAL_LINKS, SocialLink } from '../../data/social';
 
 // =============================================================================
@@ -658,23 +658,50 @@ export function ContactSection() {
                   </div>
                 </div>
 
-                <a
-                  href={`tel:${PROFILE_DATA.contactPhone.replace(/\s+/g, '')}`}
+                <div
                   style={{
-                    textDecoration: 'none',
-                    fontSize: '12px',
-                    fontWeight: 'var(--font-weight-medium)',
-                    color: 'var(--success)',
-                    display: 'inline-flex',
+                    display: 'flex',
                     alignItems: 'center',
-                    gap: '4px',
+                    gap: '12px',
                     marginTop: 'auto',
                     paddingTop: '6px',
+                    flexWrap: 'wrap',
                   }}
                 >
-                  <span>Call or WhatsApp</span>
-                  <span>↗</span>
-                </a>
+                  <a
+                    href={`tel:${PROFILE_DATA.contactPhone.replace(/\s+/g, '')}`}
+                    style={{
+                      textDecoration: 'none',
+                      fontSize: '12px',
+                      fontWeight: 'var(--font-weight-medium)',
+                      color: 'var(--text-secondary)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    <span>Direct Call</span>
+                    <span>↗</span>
+                  </a>
+                  <span style={{ color: 'var(--border-default)', fontSize: '10px' }}>•</span>
+                  <a
+                    href={WHATSAPP_CONFIG.getDeepLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      textDecoration: 'none',
+                      fontSize: '12px',
+                      fontWeight: 'var(--font-weight-medium)',
+                      color: 'var(--success)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    <span>WhatsApp</span>
+                    <span>↗</span>
+                  </a>
+                </div>
               </div>
 
               {/* LINKEDIN CARD */}
