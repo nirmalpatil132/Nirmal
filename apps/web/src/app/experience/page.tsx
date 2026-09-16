@@ -388,7 +388,7 @@ export default function ExperiencePage() {
               >
                 <circle cx="210" cy="160" r="140" stroke="rgba(255, 107, 0, 0.15)" strokeWidth="1" strokeDasharray="4 6" />
                 <circle cx="210" cy="160" r="95" stroke="rgba(255, 107, 0, 0.22)" strokeWidth="1" />
-                
+
                 {/* Connected nodes */}
                 <line x1="120" y1="90" x2="190" y2="60" stroke="rgba(255, 107, 0, 0.25)" strokeWidth="1" />
                 <line x1="190" y1="60" x2="280" y2="80" stroke="rgba(255, 107, 0, 0.25)" strokeWidth="1" />
