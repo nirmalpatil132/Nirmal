@@ -205,7 +205,7 @@ export default function ExperiencePage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
       <Navbar />
 
-      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + 1.5rem)', paddingBottom: 'var(--space-3xl)' }}>
+      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-lg))', paddingBottom: 'var(--space-3xl)' }}>
         <Container size="lg">
           {/* ========================================================
               1. EXPERIENCE HERO SECTION (Title + Portrait)

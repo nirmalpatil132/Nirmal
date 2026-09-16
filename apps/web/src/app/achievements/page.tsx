@@ -16,7 +16,7 @@ export default function AchievementsPage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
       <Navbar />
 
-      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-md))' }}>
+      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-lg))' }}>
         <AchievementsSection />
         <EducationSection />
         <CertificatesSection />

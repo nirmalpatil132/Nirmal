@@ -15,7 +15,7 @@ export default function AboutPage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
       <Navbar />
 
-      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-xl))' }}>
+      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-lg))' }}>
         <AboutSection />
         <SocialLinksSection />
       </main>

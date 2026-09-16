@@ -53,7 +53,7 @@ export default function DesignSystemPage() {
                 { label: 'Background Primary', color: 'var(--bg-primary)', text: '#ffffff' },
                 { label: 'Background Secondary', color: 'var(--bg-secondary)', text: '#ffffff' },
                 { label: 'Background Elevated', color: 'var(--bg-elevated)', text: '#ffffff' },
-                { label: 'Primary (Indigo)', color: 'var(--primary)', text: '#ffffff' },
+                { label: 'Primary (Electric Orange)', color: 'var(--primary)', text: '#ffffff' },
                 { label: 'Secondary (Cyan)', color: 'var(--secondary)', text: '#000000' },
                 { label: 'Accent (Purple)', color: 'var(--accent)', text: '#ffffff' },
                 { label: 'Success (Emerald)', color: 'var(--success)', text: '#000000' },

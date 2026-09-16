@@ -45,7 +45,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
       <Navbar />
 
-      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-md))' }}>
+      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-lg))' }}>
         <Section id="project-detail" spacing="lg">
           <Container size="lg">
             {/* BREADCRUMB & BACK BUTTON */}

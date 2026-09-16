@@ -163,6 +163,7 @@ export function Navbar() {
                   <Link
                     key={item.label}
                     href={item.href}
+                    className={`navbar-link-item ${isActive ? 'active-nav-link' : ''}`}
                     style={{
                       textDecoration: 'none',
                       fontSize: '13px',

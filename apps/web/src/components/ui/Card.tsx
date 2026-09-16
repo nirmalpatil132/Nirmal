@@ -26,8 +26,8 @@ export function Card({
     },
     glass: {
       background: 'var(--bg-glass)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
+      backdropFilter: 'blur(14px)',
+      WebkitBackdropFilter: 'blur(14px)',
       border: '1px solid var(--border-subtle)',
     },
   };

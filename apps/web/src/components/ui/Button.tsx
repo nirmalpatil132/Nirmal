@@ -20,7 +20,7 @@ export function Button({
   const sizeStyles = {
     sm: { minHeight: '36px', padding: '6px 14px', fontSize: 'var(--font-size-xs)' },
     md: { minHeight: '44px', padding: '10px 20px', fontSize: 'var(--font-size-sm)' },
-    lg: { minHeight: '52px', padding: '14px 28px', fontSize: 'var(--font-size-base)' },
+    lg: { minHeight: '50px', padding: '12px 26px', fontSize: 'var(--font-size-base)' },
   };
 
   const variantStyles: Record<string, React.CSSProperties> = {

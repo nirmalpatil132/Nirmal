@@ -18,7 +18,7 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
     <footer
       style={{
         background: 'var(--bg-secondary)',
-        borderTop: '1px solid var(--border-default)',
+        borderTop: '1px solid var(--border-subtle)',
         paddingTop: 'var(--space-2xl)',
         paddingBottom: 'var(--space-xl)',
         marginTop: 'var(--space-3xl)',

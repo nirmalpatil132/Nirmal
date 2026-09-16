@@ -14,7 +14,7 @@ export default function JourneyPage() {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)' }}>
       <Navbar />
 
-      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-md))' }}>
+      <main style={{ flex: 1, paddingTop: 'calc(var(--header-height) + var(--space-lg))' }}>
         <LearningJourneySection />
       </main>
 
