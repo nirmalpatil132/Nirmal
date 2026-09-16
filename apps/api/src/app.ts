@@ -15,9 +15,14 @@ const app = express();
 app.use(helmet());
 
 // CORS Configuration
-const allowedOrigins = config.isDev
-  ? ['http://localhost:3000', config.corsOrigin]
-  : [config.corsOrigin];
+const defaultOrigins = [
+  'http://localhost:3000',
+  'https://nirmalpatil132.github.io',
+];
+const envOrigins = config.corsOrigin
+  ? config.corsOrigin.split(',').map((o) => o.trim())
+  : [];
+const allowedOrigins = Array.from(new Set([...defaultOrigins, ...envOrigins]));
 
 app.use(
   cors({

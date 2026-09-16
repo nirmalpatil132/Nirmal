@@ -17,6 +17,8 @@ export function generateStaticParams() {
   }));
 }
 
+import { getCanonicalUrl } from '../../../utils/assets';
+
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const project = PROJECTS_DATA.find((p) => p.slug === params.slug);
   if (!project) {
@@ -24,9 +26,18 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
       title: 'Project Not Found — Nirmal Patil',
     };
   }
+  const canonicalUrl = getCanonicalUrl(`/projects/${project.slug}`);
   return {
     title: `${project.title} — Project Case Study | Nirmal Patil`,
     description: project.oneLiner,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: `${project.title} — Project Case Study | Nirmal Patil`,
+      description: project.oneLiner,
+      url: canonicalUrl,
+    },
   };
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { PROFILE_DATA } from '../data/profile';
 import { SOCIAL_LINKS } from '../data/social';
-import { getAbsoluteAssetUrl } from '../utils/assets';
+import { getAbsoluteAssetUrl, getCanonicalUrl } from '../utils/assets';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil132.github.io/Nirmal';
 const ogImageUrl = getAbsoluteAssetUrl('/images/nirmal-passport-photo.png', siteUrl);
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: '/',
+    canonical: getCanonicalUrl('/'),
   },
 };
 

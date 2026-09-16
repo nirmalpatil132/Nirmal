@@ -5,9 +5,19 @@ import { Footer } from '../../components/navigation/Footer';
 import { AboutSection } from '../../components/sections/AboutSection';
 import { SocialLinksSection } from '../../components/sections/SocialLinksSection';
 
+import { getCanonicalUrl } from '../../utils/assets';
+
 export const metadata: Metadata = {
   title: 'About — Nirmal Patil',
   description: 'Learn more about Nirmal Patil, Software Developer Intern at Evnorix Infotech, full-stack engineer, and product builder.',
+  alternates: {
+    canonical: getCanonicalUrl('/about'),
+  },
+  openGraph: {
+    title: 'About — Nirmal Patil',
+    description: 'Learn more about Nirmal Patil, Software Developer Intern at Evnorix Infotech, full-stack engineer, and product builder.',
+    url: getCanonicalUrl('/about'),
+  },
 };
 
 export default function AboutPage() {

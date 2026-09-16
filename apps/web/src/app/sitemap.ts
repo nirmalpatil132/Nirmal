@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { PROJECTS_DATA } from '../data/projects';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil.dev';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil132.github.io/Nirmal';
   const currentDate = new Date().toISOString().split('T')[0];
 
   const staticRoutes: MetadataRoute.Sitemap = [

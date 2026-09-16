@@ -6,9 +6,19 @@ import { AchievementsSection } from '../../components/sections/AchievementsSecti
 import { EducationSection } from '../../components/sections/EducationSection';
 import { CertificatesSection } from '../../components/sections/CertificatesSection';
 
+import { getCanonicalUrl } from '../../utils/assets';
+
 export const metadata: Metadata = {
   title: 'Achievements, Education & Certifications — Nirmal Patil',
   description: 'National competition victories at IIT Bombay, IEEE research publication, Google Student Ambassador selection, academic foundations, and verified technical credentials of Nirmal Patil.',
+  alternates: {
+    canonical: getCanonicalUrl('/achievements'),
+  },
+  openGraph: {
+    title: 'Achievements, Education & Certifications — Nirmal Patil',
+    description: 'National competition victories at IIT Bombay, IEEE research publication, Google Student Ambassador selection, academic foundations, and verified technical credentials of Nirmal Patil.',
+    url: getCanonicalUrl('/achievements'),
+  },
 };
 
 export default function AchievementsPage() {

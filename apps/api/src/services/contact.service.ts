@@ -1,12 +1,32 @@
 import { ContactFormInput } from '@nirmal/validation';
 import { logger } from '../utils/logger.js';
+import { sendContactEmail } from './email.service.js';
 
-export async function processContactSubmission(input: ContactFormInput) {
-  logger.info(`Received contact form submission from: ${input.name} <${input.email}>`);
-  // Phase 1 Foundation: Input validated via Zod, rate-limited, service layer established.
-  // In Phase 10 (Backend & DB integration), messages will be saved to Postgres & email sent via provider.
+export async function processContactSubmission(input: ContactFormInput & { honeypot?: string; hp?: string }) {
+  // Anti-Spam: Reject submission if silent honeypot field is populated by bots
+  if (input.honeypot || input.hp) {
+    logger.warn(`Spam bot submission trapped by honeypot from IP/Email: ${input.email}`);
+    return {
+      received: true,
+      delivered: false,
+      message: 'Thank you for your message.',
+    };
+  }
+
+  logger.info(`Processing verified contact submission from: ${input.name} <${input.email}> - Subject: ${input.subject}`);
+
+  // Dispatch real email delivery
+  const emailResult = await sendContactEmail({
+    name: input.name,
+    email: input.email,
+    subject: input.subject,
+    message: input.message,
+  });
+
   return {
     received: true,
-    message: 'Contact form submission successfully validated and received (Phase 1 foundation).',
+    delivered: emailResult.delivered,
+    provider: emailResult.provider,
+    message: emailResult.message,
   };
 }

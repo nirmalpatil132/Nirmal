@@ -4,10 +4,21 @@ import { Navbar } from '../../components/navigation/Navbar';
 import { Footer } from '../../components/navigation/Footer';
 import { ContactSection } from '../../components/sections/ContactSection';
 
+import { getCanonicalUrl } from '../../utils/assets';
+
 export const metadata: Metadata = {
   title: 'Contact & Connect — Nirmal Patil',
   description:
     'Connect with Nirmal Patil for software developer opportunities, full-stack web engineering, agentic AI workflows, or technical collaborations.',
+  alternates: {
+    canonical: getCanonicalUrl('/contact'),
+  },
+  openGraph: {
+    title: 'Contact & Connect — Nirmal Patil',
+    description:
+      'Connect with Nirmal Patil for software developer opportunities, full-stack web engineering, agentic AI workflows, or technical collaborations.',
+    url: getCanonicalUrl('/contact'),
+  },
 };
 
 export default function ContactPage() {

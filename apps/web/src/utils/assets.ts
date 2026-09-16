@@ -51,3 +51,18 @@ export function getAbsoluteAssetUrl(
     return assetPath;
   }
 }
+
+/**
+ * Resolves full canonical URL for pages, preserving /Nirmal basePath for GitHub Pages.
+ */
+export function getCanonicalUrl(
+  pagePath: string = '',
+  siteUrl: string = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil132.github.io/Nirmal'
+): string {
+  const cleanBase = siteUrl.endsWith('/') ? siteUrl.slice(0, -1) : siteUrl;
+  if (!pagePath || pagePath === '/' || pagePath === '.') {
+    return `${cleanBase}/`;
+  }
+  const cleanPath = pagePath.startsWith('/') ? pagePath : `/${pagePath}`;
+  return `${cleanBase}${cleanPath}`;
+}
