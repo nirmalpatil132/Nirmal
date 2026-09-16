@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: nirmal-portfolio-api
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build:api
+    startCommand: npm run start:api
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        value: https://nirmalpatil132.github.io
+      - key: EMAIL_PROVIDER
+        value: resend
+      - key: CONTACT_TO_EMAIL
+        value: nirmalpatil615@gmail.com
+      - key: EMAIL_FROM
+        value: onboarding@resend.dev
+      - key: RESEND_API_KEY
+        sync: false

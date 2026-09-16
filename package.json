@@ -12,6 +12,8 @@
     "dev:web": "npm run dev --workspace=apps/web",
     "dev:api": "npm run dev --workspace=apps/api",
     "build": "npm run build --workspaces --if-present",
+    "build:api": "npm run build --workspace=@nirmal/api",
+    "start:api": "npm run start --workspace=@nirmal/api",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "db:generate": "prisma generate",

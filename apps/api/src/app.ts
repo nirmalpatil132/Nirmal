@@ -45,6 +45,12 @@ app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 // General Rate Limiting
 app.use(generalRateLimiter);
 
+// Health & Liveness Endpoints for Cloud Platforms & Load Balancers
+app.get('/', (_req, res) => {
+  res.status(200).json({ status: 'ok', service: 'nirmal-portfolio-api' });
+});
+app.use('/health', healthRoutes);
+
 // Versioned API Routes (/api/v1)
 app.use('/api/v1', healthRoutes);
 app.use('/api/v1', contactRoutes);
