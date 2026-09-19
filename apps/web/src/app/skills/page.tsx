@@ -238,7 +238,7 @@ export default function SkillsPage() {
           <section
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
               gap: 'var(--space-xl)',
               alignItems: 'center',
               marginBottom: 'var(--space-3xl)',
@@ -365,6 +365,7 @@ export default function SkillsPage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '340px',
+                overflow: 'hidden',
               }}
             >
               {/* Radial Orange Glow Backdrop */}
@@ -394,6 +395,7 @@ export default function SkillsPage() {
                   pointerEvents: 'none',
                   zIndex: 0,
                   opacity: 0.6,
+                  maxWidth: '100%',
                 }}
               >
                 <circle cx="190" cy="160" r="145" stroke="rgba(255, 107, 0, 0.18)" strokeWidth="1" strokeDasharray="5 7" />
@@ -594,7 +596,7 @@ export default function SkillsPage() {
             <section
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 240px), 1fr))',
                 gap: 'var(--space-md)',
                 marginBottom: 'var(--space-3xl)',
               }}

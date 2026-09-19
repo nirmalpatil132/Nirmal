@@ -214,8 +214,8 @@ export function Navbar() {
                 cursor: 'pointer',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '40px',
-                minWidth: '40px',
+                minHeight: '44px',
+                minWidth: '44px',
               }}
               className="show-mobile"
             >
@@ -235,8 +235,8 @@ export function Navbar() {
             right: 0,
             bottom: 0,
             height: '100dvh',
-            width: '100vw',
-            maxWidth: '100vw',
+            width: '100%',
+            maxWidth: '100%',
             boxSizing: 'border-box',
             background: '#07090e',
             zIndex: 999999,
@@ -303,8 +303,8 @@ export function Navbar() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minHeight: '40px',
-                minWidth: '40px',
+                minHeight: '44px',
+                minWidth: '44px',
               }}
             >
               ✕
@@ -344,7 +344,7 @@ export function Navbar() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
                   gap: '10px',
                 }}
               >
@@ -360,21 +360,22 @@ export function Navbar() {
                         fontSize: 'var(--font-size-sm)',
                         fontWeight: isActive ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
                         color: isActive ? '#ffffff' : 'var(--text-secondary)',
-                        padding: '12px 14px',
+                        padding: '12px 10px',
                         background: isActive ? 'rgba(255, 107, 0, 0.15)' : 'var(--bg-secondary)',
                         border: isActive ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
                         borderRadius: 'var(--radius-md)',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '10px',
+                        gap: '8px',
                         minHeight: '48px',
                         boxSizing: 'border-box',
                         transition: 'all var(--transition-fast)',
                         boxShadow: isActive ? '0 0 16px rgba(255, 107, 0, 0.25)' : '0 2px 6px rgba(0, 0, 0, 0.3)',
+                        overflow: 'hidden',
                       }}
                     >
-                      <span style={{ fontSize: '1.1rem', width: '22px', textAlign: 'center' }}>{item.icon}</span>
-                      <span>{item.label}</span>
+                      <span style={{ fontSize: '1.1rem', width: '22px', textAlign: 'center', flexShrink: 0 }}>{item.icon}</span>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</span>
                     </Link>
                   );
                 })}

@@ -112,11 +112,13 @@ export function HeroSection() {
           pointerEvents: 'none',
           userSelect: 'none',
           whiteSpace: 'nowrap',
+          overflow: 'hidden',
         }}
       >
         <span
+          className="hero-bg-text-responsive"
           style={{
-            fontSize: 'clamp(3.5rem, 14vw, 12rem)',
+            fontSize: 'clamp(2.5rem, 12vw, 12rem)',
             fontWeight: 900,
             lineHeight: 0.9,
             letterSpacing: 'clamp(-0.04em, -0.01em, -0.02em)',
@@ -128,8 +130,9 @@ export function HeroSection() {
           NIRMAL
         </span>
         <span
+          className="hero-bg-text-responsive"
           style={{
-            fontSize: 'clamp(3.5rem, 14vw, 12rem)',
+            fontSize: 'clamp(2.5rem, 12vw, 12rem)',
             fontWeight: 900,
             lineHeight: 0.9,
             letterSpacing: 'clamp(-0.04em, -0.01em, -0.02em)',
@@ -370,7 +373,7 @@ export function HeroSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 140px), 1fr))',
             gap: 'clamp(0.6rem, 1.2vw, 1rem)',
             width: '100%',
           }}

@@ -462,7 +462,7 @@ export function ContactSection() {
         <section
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
             gap: 'var(--space-xl)',
             alignItems: 'start',
             marginBottom: 'var(--space-3xl)',
@@ -502,7 +502,7 @@ export function ContactSection() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
                 gap: 'var(--space-md)',
               }}
             >
@@ -1541,7 +1541,7 @@ export function ContactSection() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
               gap: 'var(--space-md)',
             }}
           >
@@ -1832,7 +1832,7 @@ export function ContactSection() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 220px), 1fr))',
               gap: 'var(--space-md)',
             }}
           >

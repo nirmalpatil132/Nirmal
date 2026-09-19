@@ -104,13 +104,18 @@ export function EducationSection() {
             }
             @media (max-width: 640px) {
               .edu-timeline-item {
+                display: block !important;
                 padding-left: 28px !important;
+                position: relative !important;
               }
               .edu-spine {
-                left: 10px !important;
+                left: 8px !important;
               }
               .edu-node {
-                left: 2px !important;
+                position: absolute !important;
+                left: 0px !important;
+                top: 20px !important;
+                padding-top: 0 !important;
               }
               .edu-desktop-date {
                 display: none !important;

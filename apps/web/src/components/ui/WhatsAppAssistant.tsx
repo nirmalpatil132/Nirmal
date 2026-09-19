@@ -43,8 +43,8 @@ export function WhatsAppAssistant() {
       <style dangerouslySetInnerHTML={{ __html: `
         @media (max-width: 640px) {
           aside[aria-label="WhatsApp Contact Assistant"] {
-            --wa-bottom: 18px !important;
-            --wa-right: 18px !important;
+            --wa-bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+            --wa-right: calc(18px + env(safe-area-inset-right, 0px)) !important;
           }
           .wa-assistant-tooltip {
             display: none !important;

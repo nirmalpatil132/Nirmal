@@ -28,7 +28,7 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
             gap: 'var(--space-2xl)',
             marginBottom: 'var(--space-2xl)',
           }}

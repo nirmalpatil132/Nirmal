@@ -364,6 +364,7 @@ export function AboutSection() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'flex-end',
+                overflow: 'hidden',
               }}
             >
               {/* Radial Orange Glow behind Portrait */}
@@ -374,8 +375,8 @@ export function AboutSection() {
                   top: '30%',
                   left: '50%',
                   transform: 'translate(-50%, -40%)',
-                  width: 'clamp(280px, 32vw, 380px)',
-                  height: 'clamp(280px, 32vw, 380px)',
+                  width: 'clamp(260px, 32vw, 380px)',
+                  height: 'clamp(260px, 32vw, 380px)',
                   borderRadius: '50%',
                   background: 'radial-gradient(circle, rgba(255, 107, 0, 0.4) 0%, rgba(255, 107, 0, 0.12) 50%, transparent 72%)',
                   filter: 'blur(35px)',
@@ -392,8 +393,8 @@ export function AboutSection() {
                   top: '28%',
                   left: '50%',
                   transform: 'translate(-50%, -40%)',
-                  width: 'clamp(310px, 35vw, 410px)',
-                  height: 'clamp(310px, 35vw, 410px)',
+                  width: 'clamp(240px, 35vw, 410px)',
+                  height: 'clamp(240px, 35vw, 410px)',
                   borderRadius: '50%',
                   border: '1px dashed rgba(255, 107, 0, 0.22)',
                   pointerEvents: 'none',

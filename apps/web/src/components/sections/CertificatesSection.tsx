@@ -336,7 +336,7 @@ export function CertificatesSection() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             gap: 'var(--space-xl)',
             marginBottom: 'var(--space-3xl)',
           }}
@@ -368,7 +368,7 @@ export function CertificatesSection() {
             padding: 'clamp(var(--space-lg), 4vw, var(--space-2xl))',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 24px rgba(255, 107, 0, 0.08)',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
             gap: 'var(--space-xl)',
             alignItems: 'center',
             position: 'relative',

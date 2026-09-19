@@ -118,7 +118,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
               </Card>
 
               {/* PROBLEM SOLVED & TECHNOLOGIES */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 'var(--space-lg)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 'var(--space-lg)' }}>
                 <Card variant="elevated">
                   <h3 style={{ fontSize: 'var(--font-size-lg)', fontWeight: 'var(--font-weight-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-xs)' }}>
                     🎯 Problem Solved &amp; Objective

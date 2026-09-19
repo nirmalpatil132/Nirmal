@@ -418,6 +418,7 @@ export function LearningJourneySection() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '320px',
+                overflow: 'hidden',
               }}
             >
               {/* Radial Backdrop Glow */}
@@ -448,6 +449,7 @@ export function LearningJourneySection() {
                   pointerEvents: 'none',
                   zIndex: 0,
                   opacity: 0.8,
+                  maxWidth: '100%',
                 }}
               >
                 <circle cx="170" cy="170" r="150" stroke="rgba(255, 107, 0, 0.2)" strokeWidth="1.5" strokeDasharray="6 6" />
@@ -1213,7 +1215,7 @@ export function LearningJourneySection() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 260px), 1fr))',
               gap: 'var(--space-md)',
             }}
           >

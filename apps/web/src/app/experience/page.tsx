@@ -213,7 +213,7 @@ export default function ExperiencePage() {
           <section
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
               gap: 'var(--space-xl)',
               alignItems: 'center',
               marginBottom: 'var(--space-3xl)',
@@ -355,6 +355,7 @@ export default function ExperiencePage() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 minHeight: '340px',
+                overflow: 'hidden',
               }}
             >
               {/* Radial Orange Glow Backdrop */}
@@ -384,6 +385,7 @@ export default function ExperiencePage() {
                   pointerEvents: 'none',
                   zIndex: 0,
                   opacity: 0.65,
+                  maxWidth: '100%',
                 }}
               >
                 <circle cx="210" cy="160" r="140" stroke="rgba(255, 107, 0, 0.15)" strokeWidth="1" strokeDasharray="4 6" />
