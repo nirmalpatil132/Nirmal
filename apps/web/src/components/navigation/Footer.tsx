@@ -78,9 +78,6 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
               Developer &amp; Architecture
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)', fontSize: 'var(--font-size-xs)' }}>
-              <Link href="/design-system" style={{ color: 'var(--secondary)', textDecoration: 'none' }}>
-                🎨 Phase 2 Design System Showcase ↗
-              </Link>
               {onOpenHealthModal && (
                 <button
                   onClick={onOpenHealthModal}

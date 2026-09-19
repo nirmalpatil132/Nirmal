@@ -2,8 +2,8 @@ import app from './app.js';
 import { config } from './config/index.js';
 import { logger } from './utils/logger.js';
 
-const server = app.listen(config.port, () => {
-  logger.info(`🚀 Nirmal Portfolio V2 API running on http://localhost:${config.port}`);
+const server = app.listen(config.port, '0.0.0.0', () => {
+  logger.info(`🚀 Nirmal Portfolio V2 API running on http://0.0.0.0:${config.port}`);
   logger.info(`🔍 Health check available at http://localhost:${config.port}/api/v1/health`);
   logger.info(`🌍 Environment: ${config.env}`);
 });

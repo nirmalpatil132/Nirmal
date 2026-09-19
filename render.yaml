@@ -6,18 +6,19 @@ services:
     region: oregon
     buildCommand: npm install && npm run build:api
     startCommand: npm run start:api
-    healthCheckPath: /health
-    autoDeploy: true
+    healthCheckPath: /api/v1/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
       - key: CORS_ORIGIN
         value: https://nirmalpatil132.github.io
       - key: EMAIL_PROVIDER
         value: postmark
       - key: EMAIL_TO
         value: nirmalpatil615@gmail.com
-      - key: EMAIL_FROM
-        sync: false
       - key: POSTMARK_SERVER_TOKEN
+        sync: false
+      - key: EMAIL_FROM
         sync: false

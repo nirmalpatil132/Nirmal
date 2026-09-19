@@ -42,30 +42,68 @@ const CAPABILITY_CARDS: CapabilityCardItem[] = [
 ];
 
 const FULL_HEADLINE = 'Building digital products that create impact.';
+const TYPING_SPEED_MS = 55;
+const DELETING_SPEED_MS = 35;
+const PAUSE_AFTER_TYPE_MS = 2000;
+const PAUSE_AFTER_DELETE_MS = 700;
 
 export function HeroSection() {
   const [charCount, setCharCount] = useState(0);
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     // Respect user's reduced-motion preference
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+      setIsReducedMotion(true);
       setCharCount(FULL_HEADLINE.length);
-      setIsTypingComplete(true);
       return;
     }
 
-    let index = 0;
-    const interval = setInterval(() => {
-      index += 1;
-      setCharCount(index);
-      if (index >= FULL_HEADLINE.length) {
-        clearInterval(interval);
-        setIsTypingComplete(true);
-      }
-    }, 32);
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let isMounted = true;
+    let currentCount = 0;
+    let mode: 'typing' | 'pauseAfterType' | 'deleting' | 'pauseAfterDelete' = 'typing';
 
-    return () => clearInterval(interval);
+    const step = () => {
+      if (!isMounted) return;
+
+      if (mode === 'typing') {
+        if (currentCount < FULL_HEADLINE.length) {
+          currentCount += 1;
+          setCharCount(currentCount);
+          timeoutId = setTimeout(step, TYPING_SPEED_MS);
+        } else {
+          mode = 'pauseAfterType';
+          timeoutId = setTimeout(step, PAUSE_AFTER_TYPE_MS);
+        }
+      } else if (mode === 'pauseAfterType') {
+        mode = 'deleting';
+        timeoutId = setTimeout(step, DELETING_SPEED_MS);
+      } else if (mode === 'deleting') {
+        if (currentCount > 0) {
+          currentCount -= 1;
+          setCharCount(currentCount);
+          timeoutId = setTimeout(step, DELETING_SPEED_MS);
+        } else {
+          mode = 'pauseAfterDelete';
+          timeoutId = setTimeout(step, PAUSE_AFTER_DELETE_MS);
+        }
+      } else if (mode === 'pauseAfterDelete') {
+        mode = 'typing';
+        timeoutId = setTimeout(step, TYPING_SPEED_MS);
+      }
+    };
+
+    // Kick off continuous typing loop
+    timeoutId = setTimeout(step, TYPING_SPEED_MS);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
@@ -84,6 +122,21 @@ export function HeroSection() {
         paddingBottom: 'clamp(1.25rem, 2.5vw, 2rem)',
       }}
     >
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes heroCursorBlink {
+          0%, 48% { opacity: 1; }
+          50%, 98% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        .hero-typing-cursor-bar {
+          animation: heroCursorBlink 0.9s infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-typing-cursor {
+            display: none !important;
+          }
+        }
+      `}} />
       {/* 1. CINEMATIC AMBIENT LIGHTING GLOWS */}
       {/* Primary warm orange radial glow centered behind portrait */}
       <div
@@ -223,40 +276,81 @@ export function HeroSection() {
                 position: 'relative',
               }}
             >
+              {charCount === 0 && !isReducedMotion && (
+                <span
+                  aria-hidden="true"
+                  className="hero-typing-cursor"
+                  style={{
+                    display: 'inline-block',
+                    width: 0,
+                    position: 'relative',
+                    verticalAlign: 'baseline',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <span
+                    className="hero-typing-cursor-bar"
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      bottom: '0.08em',
+                      width: 'clamp(2.5px, 0.25vw, 3.5px)',
+                      height: '0.85em',
+                      background: 'var(--primary)',
+                      borderRadius: '2px',
+                      boxShadow: '0 0 8px var(--primary)',
+                    }}
+                  />
+                </span>
+              )}
               {FULL_HEADLINE.split('').map((char, i) => {
                 const isRevealed = i < charCount;
                 const isImpactPart = i >= 38; // 'impact.'
+                const isCursorHere = !isReducedMotion && isRevealed && i === charCount - 1;
 
                 return (
-                  <span
-                    key={i}
-                    className={isImpactPart ? 'text-gradient-orange' : undefined}
-                    style={{
-                      opacity: isRevealed ? 1 : 0,
-                      fontWeight: 800,
-                      color: isImpactPart ? undefined : 'var(--text-primary)',
-                      transition: 'opacity 60ms ease-in',
-                    }}
-                  >
-                    {char}
-                  </span>
+                  <React.Fragment key={i}>
+                    <span
+                      className={isImpactPart ? 'text-gradient-orange' : undefined}
+                      style={{
+                        opacity: isRevealed ? 1 : 0,
+                        fontWeight: 800,
+                        color: isImpactPart ? undefined : 'var(--text-primary)',
+                        transition: isRevealed ? 'opacity 50ms ease-in' : 'opacity 25ms ease-out',
+                      }}
+                    >
+                      {char}
+                    </span>
+                    {isCursorHere && (
+                      <span
+                        aria-hidden="true"
+                        className="hero-typing-cursor"
+                        style={{
+                          display: 'inline-block',
+                          width: 0,
+                          position: 'relative',
+                          verticalAlign: 'baseline',
+                          pointerEvents: 'none',
+                        }}
+                      >
+                        <span
+                          className="hero-typing-cursor-bar"
+                          style={{
+                            position: 'absolute',
+                            left: '1px',
+                            bottom: '0.08em',
+                            width: 'clamp(2.5px, 0.25vw, 3.5px)',
+                            height: '0.85em',
+                            background: 'var(--primary)',
+                            borderRadius: '2px',
+                            boxShadow: '0 0 8px var(--primary)',
+                          }}
+                        />
+                      </span>
+                    )}
+                  </React.Fragment>
                 );
               })}
-              {!isTypingComplete && (
-                <span
-                  aria-hidden="true"
-                  style={{
-                    display: 'inline-block',
-                    width: '3px',
-                    height: '0.88em',
-                    background: 'var(--primary)',
-                    marginLeft: '4px',
-                    verticalAlign: 'baseline',
-                    borderRadius: '2px',
-                    boxShadow: '0 0 8px var(--primary)',
-                  }}
-                />
-              )}
             </h1>
 
             {/* SUPPORTING DESCRIPTION DERIVED FROM VERIFIED DATA */}

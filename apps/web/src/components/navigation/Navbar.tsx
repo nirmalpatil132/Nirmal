@@ -178,12 +178,6 @@ export function Navbar() {
                 );
               })}
 
-              <Link href="/design-system" style={{ textDecoration: 'none', marginLeft: '4px' }}>
-                <Button variant="ghost" size="sm" style={{ fontSize: '11px' }}>
-                  Design System ↗
-                </Button>
-              </Link>
-
               <a
                 href={PROFILE_DATA.resumePdfPath}
                 target="_blank"
@@ -446,29 +440,6 @@ export function Navbar() {
                   </Link>
                 ))}
               </div>
-            </div>
-
-            {/* SECTION 3: DEVELOPER UTILITY LINK */}
-            <div style={{ paddingTop: 'var(--space-xs)', textAlign: 'center' }}>
-              <Link
-                href="/design-system"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{
-                  textDecoration: 'none',
-                  fontSize: 'var(--font-size-xs)',
-                  color: 'var(--text-muted)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '8px 16px',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--border-subtle)',
-                  background: 'var(--bg-secondary)',
-                }}
-              >
-                <span>🎨 Design System Reference</span>
-                <span style={{ color: 'var(--primary)' }}>↗</span>
-              </Link>
             </div>
           </div>
         </div>
