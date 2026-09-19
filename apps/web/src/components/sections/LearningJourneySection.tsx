@@ -466,27 +466,37 @@ export function LearningJourneySection() {
               <div
                 style={{
                   position: 'relative',
-                  width: '210px',
-                  height: '210px',
+                  width: '220px',
+                  height: '220px',
                   borderRadius: '50%',
-                  padding: '4px',
-                  background: 'linear-gradient(135deg, #ff8533 0%, rgba(255, 107, 0, 0.3) 50%, #38bdf8 100%)',
-                  boxShadow: '0 0 30px rgba(255, 107, 0, 0.35), 0 12px 30px rgba(0, 0, 0, 0.6)',
+                  padding: '3px',
+                  background: 'linear-gradient(135deg, #ff8533 0%, rgba(255, 107, 0, 0.4) 50%, #38bdf8 100%)',
+                  boxShadow: '0 0 32px rgba(255, 107, 0, 0.35), 0 12px 30px rgba(0, 0, 0, 0.6)',
                   zIndex: 1,
-                  overflow: 'hidden',
                 }}
               >
-                <Image
-                  src={PROFILE_DATA.heroPortraitPath}
-                  alt="Nirmal Patil — Engineering Evolution"
-                  fill
-                  sizes="210px"
+                <div
                   style={{
-                    objectFit: 'cover',
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
                     borderRadius: '50%',
+                    overflow: 'hidden',
+                    background: '#0a0d14',
                   }}
-                  priority
-                />
+                >
+                  <Image
+                    src={PROFILE_DATA.heroPortraitPath}
+                    alt="Nirmal Patil — Engineering Evolution"
+                    fill
+                    sizes="220px"
+                    style={{
+                      objectFit: 'cover',
+                      objectPosition: '53% 0%',
+                    }}
+                    priority
+                  />
+                </div>
               </div>
             </div>
           </div>

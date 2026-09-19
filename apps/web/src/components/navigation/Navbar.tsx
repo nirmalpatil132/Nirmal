@@ -168,12 +168,19 @@ export function Navbar() {
                       textDecoration: 'none',
                       fontSize: '13px',
                       fontWeight: isActive ? 'var(--font-weight-bold)' : 'var(--font-weight-medium)',
-                      color: isActive ? 'var(--primary)' : 'var(--text-secondary)',
-                      padding: '6px 12px',
-                      borderRadius: 'var(--radius-sm)',
-                      background: isActive ? 'var(--primary-light)' : 'transparent',
-                      border: isActive ? '1px solid var(--border-orange)' : '1px solid transparent',
+                      color: isActive ? '#ff8533' : 'var(--text-secondary)',
+                      padding: '5px 13px',
+                      borderRadius: 'var(--radius-full)',
+                      background: isActive
+                        ? 'linear-gradient(135deg, rgba(255, 107, 0, 0.16) 0%, rgba(255, 107, 0, 0.06) 100%)'
+                        : 'transparent',
+                      border: isActive ? '1px solid rgba(255, 107, 0, 0.45)' : '1px solid transparent',
+                      boxShadow: isActive
+                        ? '0 0 12px rgba(255, 107, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08)'
+                        : 'none',
                       transition: 'all var(--transition-fast)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
                     }}
                   >
                     {item.label}

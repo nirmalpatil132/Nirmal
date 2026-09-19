@@ -347,6 +347,17 @@ img, svg, video, iframe {
   box-shadow: 0 0 12px rgba(255, 107, 0, 0.2) !important;
 }
 
+/* Refined Pill Navbar Links */
+.navbar-link-item {
+  border-radius: var(--radius-full);
+}
+
+.navbar-link-item:hover:not(.active-nav-link) {
+  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: var(--radius-full) !important;
+}
+
 /* =========================================================================
    RESPONSIVE UTILITIES & BREAKPOINTS
    ========================================================================= */
