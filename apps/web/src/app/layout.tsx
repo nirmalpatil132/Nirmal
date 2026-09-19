@@ -4,6 +4,7 @@ import { PROFILE_DATA } from '../data/profile';
 import { SOCIAL_LINKS } from '../data/social';
 import { getAbsoluteAssetUrl, getCanonicalUrl, getAssetPath } from '../utils/assets';
 import { WhatsAppAssistant } from '../components/ui/WhatsAppAssistant';
+import { BackToTop } from '../components/ui/BackToTop';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil132.github.io/Nirmal';
 const ogImageUrl = getAbsoluteAssetUrl('/images/nirmal-passport-photo.png', siteUrl);
@@ -126,8 +127,24 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('nirmal-theme');
+                  if (saved === 'light') {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                  } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -136,6 +153,7 @@ export default function RootLayout({
       <body>
         {children}
         <WhatsAppAssistant />
+        <BackToTop />
       </body>
     </html>
   );

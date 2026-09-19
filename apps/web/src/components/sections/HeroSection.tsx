@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '../ui/Container';
@@ -41,7 +41,33 @@ const CAPABILITY_CARDS: CapabilityCardItem[] = [
   },
 ];
 
+const FULL_HEADLINE = 'Building digital products that create impact.';
+
 export function HeroSection() {
+  const [charCount, setCharCount] = useState(0);
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+
+  useEffect(() => {
+    // Respect user's reduced-motion preference
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCharCount(FULL_HEADLINE.length);
+      setIsTypingComplete(true);
+      return;
+    }
+
+    let index = 0;
+    const interval = setInterval(() => {
+      index += 1;
+      setCharCount(index);
+      if (index >= FULL_HEADLINE.length) {
+        clearInterval(interval);
+        setIsTypingComplete(true);
+      }
+    }, 32);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -49,7 +75,7 @@ export function HeroSection() {
         position: 'relative',
         width: '100%',
         minHeight: 'calc(100vh - 4.25rem)',
-        background: '#07090e',
+        background: 'var(--bg-primary)',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
@@ -94,9 +120,10 @@ export function HeroSection() {
         }}
       />
 
-      {/* 2. OVERSIZED BACKGROUND TYPOGRAPHY: NIRMAL PATIL */}
+      {/* 2. OVERSIZED BACKGROUND TYPOGRAPHY: NIRMAL PATIL (Desktop Presentation) */}
       <div
         aria-hidden="true"
+        className="hero-desktop-bg-text hidden-mobile"
         style={{
           position: 'absolute',
           top: 'clamp(2rem, 7vw, 4.5rem)',
@@ -184,21 +211,52 @@ export function HeroSection() {
               </span>
             </div>
 
-            {/* MAIN PUNCHY HEADLINE */}
+            {/* MAIN PUNCHY HEADLINE — WITH ZERO-SHIFT LIVE TYPING ANIMATION */}
             <h1
               style={{
                 fontSize: 'clamp(2.1rem, 4.6vw, 3.8rem)',
                 fontWeight: 800,
                 lineHeight: 1.12,
-                color: '#ffffff',
+                color: 'var(--text-primary)',
                 letterSpacing: '-0.03em',
                 margin: 0,
+                position: 'relative',
               }}
             >
-              Building digital products that create{' '}
-              <span className="text-gradient-orange" style={{ fontWeight: 800 }}>
-                impact.
-              </span>
+              {FULL_HEADLINE.split('').map((char, i) => {
+                const isRevealed = i < charCount;
+                const isImpactPart = i >= 38; // 'impact.'
+
+                return (
+                  <span
+                    key={i}
+                    className={isImpactPart ? 'text-gradient-orange' : undefined}
+                    style={{
+                      opacity: isRevealed ? 1 : 0,
+                      fontWeight: 800,
+                      color: isImpactPart ? undefined : 'var(--text-primary)',
+                      transition: 'opacity 60ms ease-in',
+                    }}
+                  >
+                    {char}
+                  </span>
+                );
+              })}
+              {!isTypingComplete && (
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: 'inline-block',
+                    width: '3px',
+                    height: '0.88em',
+                    background: 'var(--primary)',
+                    marginLeft: '4px',
+                    verticalAlign: 'baseline',
+                    borderRadius: '2px',
+                    boxShadow: '0 0 8px var(--primary)',
+                  }}
+                />
+              )}
             </h1>
 
             {/* SUPPORTING DESCRIPTION DERIVED FROM VERIFIED DATA */}
@@ -305,6 +363,54 @@ export function HeroSection() {
             }}
             className="hero-portrait-container"
           >
+            {/* Mobile Integrated Background Typography: Intentionally composed behind portrait */}
+            <div
+              className="show-mobile"
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                top: '42%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 'clamp(8px, 2.5vw, 14px)',
+                zIndex: 1,
+                pointerEvents: 'none',
+                userSelect: 'none',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 'clamp(2.5rem, 13vw, 4.2rem)',
+                  fontWeight: 900,
+                  letterSpacing: '-0.02em',
+                  color: 'rgba(255, 255, 255, 0.08)',
+                  textTransform: 'uppercase',
+                  fontFamily: 'var(--font-family)',
+                  lineHeight: 1,
+                }}
+              >
+                NIRMAL
+              </span>
+              <span
+                style={{
+                  fontSize: 'clamp(2.5rem, 13vw, 4.2rem)',
+                  fontWeight: 900,
+                  letterSpacing: '-0.02em',
+                  color: 'rgba(255, 107, 0, 0.15)',
+                  textTransform: 'uppercase',
+                  fontFamily: 'var(--font-family)',
+                  lineHeight: 1,
+                }}
+              >
+                PATIL
+              </span>
+            </div>
+
             {/* Soft subtle backlight behind portrait */}
             <div
               aria-hidden="true"
@@ -349,7 +455,7 @@ export function HeroSection() {
                 priority
               />
 
-              {/* Seamless bottom fade mask to blend naturally into dark section base */}
+              {/* Seamless bottom fade mask to blend naturally into section base */}
               <div
                 aria-hidden="true"
                 style={{
@@ -358,7 +464,7 @@ export function HeroSection() {
                   left: 0,
                   right: 0,
                   height: '45px',
-                  background: 'linear-gradient(to bottom, rgba(7, 9, 14, 0) 0%, #07090e 100%)',
+                  background: 'linear-gradient(to bottom, rgba(7, 9, 14, 0) 0%, var(--bg-primary) 100%)',
                   pointerEvents: 'none',
                   zIndex: 3,
                 }}

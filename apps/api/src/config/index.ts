@@ -12,9 +12,9 @@ export const config = {
   databaseUrl: process.env.DATABASE_URL || '',
   isDev: (process.env.NODE_ENV || 'development') === 'development',
   email: {
-    provider: process.env.EMAIL_PROVIDER || 'resend',
-    apiKey: process.env.RESEND_API_KEY || (process.env.EMAIL_PROVIDER === 'sendgrid' ? (process.env.SENDGRID_API_KEY || '') : '') || process.env.EMAIL_API_KEY || '',
-    from: process.env.EMAIL_FROM || ((process.env.NODE_ENV || 'development') === 'development' ? 'onboarding@resend.dev' : ''),
+    provider: process.env.EMAIL_PROVIDER || 'postmark',
+    postmarkServerToken: process.env.POSTMARK_SERVER_TOKEN || process.env.EMAIL_API_KEY || '',
+    from: process.env.EMAIL_FROM || '',
     to: process.env.EMAIL_TO || process.env.CONTACT_TO_EMAIL || 'nirmalpatil615@gmail.com',
   },
   whatsapp: {

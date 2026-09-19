@@ -36,10 +36,36 @@ const HOMEPAGE_SECTIONS: NavItem[] = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const pathname = usePathname();
 
   // Safe pathname helper to prevent null dereference errors during hydration
   const safePathname = pathname || '';
+
+  // Initialize theme from localStorage, default to dark
+  useEffect(() => {
+    try {
+      const savedTheme = localStorage.getItem('nirmal-theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        setTheme(savedTheme);
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } else {
+        setTheme('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    } catch {
+      // Ignore when localStorage is inaccessible
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    try {
+      localStorage.setItem('nirmal-theme', nextTheme);
+    } catch {}
+    document.documentElement.setAttribute('data-theme', nextTheme);
+  };
 
   // Track scroll state for glass header intensity
   useEffect(() => {
@@ -103,7 +129,7 @@ export function Navbar() {
           top: 0,
           zIndex: 'var(--z-sticky)',
           width: '100%',
-          background: isScrolled ? 'rgba(7, 9, 14, 0.92)' : 'rgba(7, 9, 14, 0.75)',
+          background: isScrolled ? 'var(--bg-glass)' : 'var(--bg-glass-card)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           borderBottom: '1px solid var(--border-subtle)',
@@ -119,7 +145,7 @@ export function Navbar() {
               height: '4.25rem',
             }}
           >
-            {/* BRAND LOGO */}
+            {/* BRAND LOGO — NO EXTRA TRAILING DOT */}
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
@@ -135,16 +161,6 @@ export function Navbar() {
             >
               <span style={{ color: 'var(--primary)' }}>NIRMAL</span>
               <span style={{ color: 'var(--text-muted)' }}>PATIL</span>
-              <span
-                style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  background: 'var(--primary)',
-                  boxShadow: '0 0 8px var(--primary)',
-                  display: 'inline-block',
-                }}
-              />
             </Link>
 
             {/* DESKTOP ROUTE NAVIGATION LINKS */}
@@ -204,30 +220,118 @@ export function Navbar() {
                   Resume 📄
                 </Button>
               </a>
+
+              {/* DESKTOP THEME TOGGLE */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                  minWidth: '40px',
+                  minHeight: '40px',
+                  borderRadius: 'var(--radius-full)',
+                  background: theme === 'dark' ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.06)',
+                  border: '1px solid var(--border-default)',
+                  color: theme === 'dark' ? '#fbbf24' : '#f59e0b',
+                  cursor: 'pointer',
+                  marginLeft: '8px',
+                  transition: 'all var(--transition-fast)',
+                  outline: 'none',
+                }}
+                className="theme-toggle-btn"
+              >
+                {theme === 'dark' ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </svg>
+                )}
+              </button>
             </nav>
 
-            {/* MOBILE HAMBURGER BUTTON */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle Navigation Menu"
-              aria-expanded={mobileMenuOpen}
-              style={{
-                background: 'var(--bg-elevated)',
-                border: '1px solid var(--border-default)',
-                borderRadius: 'var(--radius-md)',
-                color: 'var(--text-primary)',
-                fontSize: '1.25rem',
-                padding: '6px 12px',
-                cursor: 'pointer',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '44px',
-                minWidth: '44px',
-              }}
-              className="show-mobile"
-            >
-              {mobileMenuOpen ? '✕' : '☰'}
-            </button>
+            {/* MOBILE HEADER ACTIONS: THEME TOGGLE + HAMBURGER */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }} className="show-mobile">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '44px',
+                  height: '44px',
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border-default)',
+                  color: theme === 'dark' ? '#fbbf24' : '#f59e0b',
+                  cursor: 'pointer',
+                  transition: 'all var(--transition-fast)',
+                  outline: 'none',
+                }}
+                className="theme-toggle-btn"
+              >
+                {theme === 'dark' ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </svg>
+                )}
+              </button>
+
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle Navigation Menu"
+                aria-expanded={mobileMenuOpen}
+                style={{
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-md)',
+                  color: 'var(--text-primary)',
+                  fontSize: '1.25rem',
+                  padding: '6px 12px',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: '44px',
+                  minWidth: '44px',
+                }}
+              >
+                {mobileMenuOpen ? '✕' : '☰'}
+              </button>
+            </div>
           </div>
         </Container>
       </header>
@@ -245,7 +349,7 @@ export function Navbar() {
             width: '100%',
             maxWidth: '100%',
             boxSizing: 'border-box',
-            background: '#07090e',
+            background: 'var(--bg-primary)',
             zIndex: 999999,
             display: 'flex',
             flexDirection: 'column',
@@ -262,12 +366,12 @@ export function Navbar() {
               padding: '0 var(--space-md)',
               height: '4.25rem',
               borderBottom: '1px solid var(--border-subtle)',
-              background: '#07090e',
+              background: 'var(--bg-primary)',
               flexShrink: 0,
               boxSizing: 'border-box',
             }}
           >
-            {/* BRAND LOGO */}
+            {/* BRAND LOGO — NO EXTRA TRAILING DOT */}
             <Link
               href="/"
               onClick={() => setMobileMenuOpen(false)}
@@ -283,39 +387,73 @@ export function Navbar() {
             >
               <span style={{ color: 'var(--primary)' }}>NIRMAL</span>
               <span style={{ color: 'var(--text-muted)' }}>PATIL</span>
-              <span
-                style={{
-                  width: '6px',
-                  height: '6px',
-                  borderRadius: '50%',
-                  background: 'var(--primary)',
-                  boxShadow: '0 0 8px var(--primary)',
-                  display: 'inline-block',
-                }}
-              />
             </Link>
 
-            {/* CLOSE BUTTON */}
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close Navigation Menu"
-              style={{
-                background: 'var(--bg-elevated)',
-                border: '1px solid var(--border-default)',
-                borderRadius: 'var(--radius-md)',
-                color: 'var(--text-primary)',
-                fontSize: '1.25rem',
-                padding: '6px 12px',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '44px',
-                minWidth: '44px',
-              }}
-            >
-              ✕
-            </button>
+            {/* DRAWER HEADER ACTIONS: THEME TOGGLE + CLOSE BUTTON */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '44px',
+                  height: '44px',
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border-default)',
+                  color: theme === 'dark' ? '#fbbf24' : '#f59e0b',
+                  cursor: 'pointer',
+                  transition: 'all var(--transition-fast)',
+                  outline: 'none',
+                }}
+                className="theme-toggle-btn"
+              >
+                {theme === 'dark' ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </svg>
+                )}
+              </button>
+
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close Navigation Menu"
+                style={{
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border-default)',
+                  borderRadius: 'var(--radius-md)',
+                  color: 'var(--text-primary)',
+                  fontSize: '1.25rem',
+                  padding: '6px 12px',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: '44px',
+                  minWidth: '44px',
+                }}
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
           {/* INTERNAL SCROLLABLE CONTENT AREA */}
@@ -330,7 +468,7 @@ export function Navbar() {
               gap: 'var(--space-lg)',
               maxWidth: '100%',
               boxSizing: 'border-box',
-              background: 'radial-gradient(circle at 85% 15%, rgba(255, 107, 0, 0.05) 0%, transparent 40%), #07090e',
+              background: 'radial-gradient(circle at 85% 15%, rgba(255, 107, 0, 0.05) 0%, transparent 40%), var(--bg-primary)',
             }}
           >
             {/* SECTION 1: PRIMARY NAVIGATION */}

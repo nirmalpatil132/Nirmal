@@ -4,13 +4,13 @@ import { config } from '../config/index.js';
 
 export async function getHealthStatus(): Promise<HealthCheckData> {
   const isDbUp = await checkDatabaseHealth();
-  const isEmailConfigured = Boolean(config.email.apiKey && config.email.from);
+  const isEmailConfigured = Boolean(config.email.postmarkServerToken && config.email.from);
 
   return {
     api: 'ok',
     database: isDbUp ? 'ok' : 'disconnected',
     email: {
-      provider: config.email.provider,
+      provider: 'postmark',
       configured: isEmailConfigured,
     },
   };

@@ -187,18 +187,22 @@ export function LearningJourneySection() {
           display: grid;
           grid-template-columns: 1fr 60px 1fr;
           align-items: center;
+          grid-auto-flow: dense;
           margin-bottom: var(--space-3xl);
           position: relative;
           z-index: 1;
         }
         .timeline-card-left {
           grid-column: 1;
+          grid-row: 1;
         }
         .timeline-card-right {
           grid-column: 3;
+          grid-row: 1;
         }
         .timeline-node-center {
           grid-column: 2;
+          grid-row: 1;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -228,14 +232,17 @@ export function LearningJourneySection() {
           }
           .timeline-card-wrapper {
             grid-template-columns: 56px 1fr !important;
+            grid-auto-flow: dense !important;
             gap: var(--space-md);
             margin-bottom: var(--space-2xl) !important;
           }
           .timeline-card-left, .timeline-card-right {
             grid-column: 2 !important;
+            grid-row: 1 !important;
           }
           .timeline-node-center {
             grid-column: 1 !important;
+            grid-row: 1 !important;
           }
         }
         @media (max-width: 640px) {

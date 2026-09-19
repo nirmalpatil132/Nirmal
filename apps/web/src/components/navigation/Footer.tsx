@@ -124,14 +124,24 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
           }}
         >
           <div>
-            © {currentYear} {PROFILE_DATA.fullName}. All rights reserved.
+            Made with ❤️ by Nirmal Patil, All rights reserved.
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => {
+                try {
+                  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                  if (document.documentElement) {
+                    document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                  }
+                } catch {
+                  window.scrollTo(0, 0);
+                }
+              }}
+              aria-label="Back to top of page"
             >
               Back to Top ↑
             </Button>

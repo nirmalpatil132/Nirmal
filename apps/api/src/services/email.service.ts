@@ -115,8 +115,8 @@ function buildContactEmailText(options: SendEmailOptions, timestamp: string): st
 }
 
 /**
- * Production email delivery service supporting Resend REST API (default zero-dependency)
- * and SendGrid REST API with graceful local development simulation.
+ * Production email delivery service supporting Postmark Transactional Email API (zero-dependency native fetch)
+ * with graceful local development simulation.
  */
 export async function sendContactEmail(options: SendEmailOptions): Promise<EmailDeliveryResult> {
   const timestamp = new Date().toISOString();
@@ -124,137 +124,107 @@ export async function sendContactEmail(options: SendEmailOptions): Promise<Email
   const emailText = buildContactEmailText(options, timestamp);
   const emailSubject = `[Portfolio Inquiry] ${options.subject} — from ${options.name}`;
 
-  const resendApiKey = process.env.RESEND_API_KEY || config.email.apiKey;
-  const sendgridApiKey = process.env.SENDGRID_API_KEY;
+  const postmarkServerToken = process.env.POSTMARK_SERVER_TOKEN || config.email.postmarkServerToken;
   const targetRecipient = process.env.EMAIL_TO || process.env.CONTACT_TO_EMAIL || config.email.to || 'nirmalpatil615@gmail.com';
   let fromAddress = process.env.EMAIL_FROM || config.email.from;
 
+  const isProduction = process.env.NODE_ENV === 'production' || (!config.isDev && process.env.NODE_ENV !== 'development');
+
   // Validate sender address for production
-  if (!config.isDev && !fromAddress) {
-    logger.error('[EMAIL] Configuration Error: EMAIL_FROM is missing in production. Resend requires a verified sender address.');
-    throw new Error('Email delivery service is misconfigured on this server (missing sender address).');
+  if (isProduction && !fromAddress) {
+    logger.error('[EMAIL] Configuration Error: EMAIL_FROM is missing in production. Postmark requires a verified Sender Signature or domain address.');
+    throw new Error('Email delivery service is misconfigured on this server (missing sender signature).');
   }
 
   // Fallback for local development if unset
   if (!fromAddress) {
-    fromAddress = 'onboarding@resend.dev';
+    fromAddress = 'inquiries@nirmalpatil.dev';
   }
 
-  // 1. Resend REST API (Primary transactional email provider)
-  if (resendApiKey) {
+  // 1. Postmark REST API (Primary transactional email provider)
+  if (postmarkServerToken) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 12000); // 12-second timeout
 
     try {
-      logger.info(`[EMAIL] Sending contact email via Resend to=${targetRecipient} from=${fromAddress} subject="${options.subject}"`);
+      logger.info(`[EMAIL] Dispatching contact email via Postmark to=${targetRecipient} from=${fromAddress} subject="${options.subject}"`);
 
-      const response = await fetch('https://api.resend.com/emails', {
+      const response = await fetch('https://api.postmarkapp.com/email', {
         method: 'POST',
         signal: controller.signal,
         headers: {
-          Authorization: `Bearer ${resendApiKey}`,
+          Accept: 'application/json',
           'Content-Type': 'application/json',
+          'X-Postmark-Server-Token': postmarkServerToken,
         },
         body: JSON.stringify({
-          from: fromAddress,
-          to: [targetRecipient],
-          reply_to: options.email,
-          subject: emailSubject,
-          html: emailHtml,
-          text: emailText,
+          From: fromAddress,
+          To: targetRecipient,
+          ReplyTo: options.email,
+          Subject: emailSubject,
+          HtmlBody: emailHtml,
+          TextBody: emailText,
+          MessageStream: 'outbound',
         }),
       });
 
-      const responseData = (await response.json()) as { id?: string; message?: string; error?: { message: string } };
+      let responseData: { To?: string; SubmittedAt?: string; MessageID?: string; ErrorCode?: number; Message?: string };
+      try {
+        responseData = (await response.json()) as typeof responseData;
+      } catch {
+        logger.error(`[EMAIL] Postmark returned malformed non-JSON response with HTTP ${response.status}`);
+        throw new Error('Email provider returned a malformed response.');
+      }
 
+      // Check HTTP status code failures
       if (!response.ok) {
-        const errorMsg = responseData?.error?.message || responseData?.message || `HTTP ${response.status}`;
-        logger.error(`[EMAIL] Resend rejected email. status=${response.status} message=${errorMsg}`);
+        const errorMsg = responseData?.Message || `HTTP ${response.status}`;
+        const errorCode = responseData?.ErrorCode;
+
+        if (response.status === 401) {
+          logger.error(`[EMAIL] Postmark authentication failed (HTTP 401). Invalid POSTMARK_SERVER_TOKEN.`);
+        } else if (response.status === 403) {
+          logger.error(`[EMAIL] Postmark authorization failed (HTTP 403). ErrorCode=${errorCode} message=${errorMsg}`);
+        } else if (response.status === 422) {
+          logger.error(`[EMAIL] Postmark sender signature validation failed (HTTP 422). ErrorCode=${errorCode} message=${errorMsg}`);
+        } else if (response.status === 429) {
+          logger.error(`[EMAIL] Postmark rate limit exceeded (HTTP 429).`);
+        } else {
+          logger.error(`[EMAIL] Postmark rejected email. status=${response.status} ErrorCode=${errorCode} message=${errorMsg}`);
+        }
+
         throw new Error(`Email provider error: ${errorMsg}`);
       }
 
-      if (!responseData?.id || typeof responseData.id !== 'string') {
-        logger.error(`[EMAIL] Resend returned HTTP ${response.status} but missing message ID in response.`);
-        throw new Error('Email provider did not return a confirmation message ID.');
+      // Success condition: HTTP 200, ErrorCode === 0, valid MessageID
+      if (responseData.ErrorCode !== 0 || !responseData.MessageID || typeof responseData.MessageID !== 'string') {
+        logger.error(`[EMAIL] Postmark returned HTTP ${response.status} but invalid response: ErrorCode=${responseData.ErrorCode}, MessageID=${responseData.MessageID}`);
+        throw new Error('Email provider did not accept the message for delivery.');
       }
 
-      logger.info(`[EMAIL] Resend accepted email. messageId=${responseData.id}`);
+      logger.info(`[EMAIL] Postmark successfully accepted email for delivery. messageId=${responseData.MessageID}`);
       return {
         delivered: true,
-        provider: 'resend',
-        messageId: responseData.id,
+        provider: 'postmark',
+        messageId: responseData.MessageID,
         message: 'Your message has been delivered directly to Nirmal Patil.',
       };
     } catch (err: unknown) {
       if ((err as Error)?.name === 'AbortError') {
-        logger.error('[EMAIL] Resend request timed out after 12 seconds.');
+        logger.error('[EMAIL] Postmark request timed out after 12 seconds.');
         throw new Error('Email service request timed out. Please try again or reach out directly.');
       }
-      logger.error('[EMAIL] Failed to dispatch email via Resend:', (err as Error)?.message || err);
+      const safeMsg = err instanceof Error ? err.message : 'Unknown error';
+      logger.error(`[EMAIL] Failed to dispatch email via Postmark: ${safeMsg}`);
       throw err;
     } finally {
       clearTimeout(timeoutId);
     }
   }
 
-  // 2. SendGrid REST API (Secondary supported provider)
-  if (sendgridApiKey) {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 12000);
-
-    try {
-      logger.info(`[EMAIL] Sending contact email via SendGrid to=${targetRecipient} from=${fromAddress}`);
-
-      const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
-        method: 'POST',
-        signal: controller.signal,
-        headers: {
-          Authorization: `Bearer ${sendgridApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          personalizations: [
-            {
-              to: [{ email: targetRecipient }],
-              subject: emailSubject,
-            },
-          ],
-          from: { email: fromAddress.includes('<') ? fromAddress.replace(/.*<([^>]+)>.*/, '$1') : fromAddress },
-          reply_to: { email: options.email, name: options.name },
-          content: [
-            { type: 'text/plain', value: emailText },
-            { type: 'text/html', value: emailHtml },
-          ],
-        }),
-      });
-
-      if (!response.ok) {
-        const errText = await response.text();
-        logger.error(`[EMAIL] SendGrid API error: status=${response.status} message=${errText}`);
-        throw new Error(`SendGrid delivery error: ${response.statusText}`);
-      }
-
-      logger.info('[EMAIL] SendGrid accepted email.');
-      return {
-        delivered: true,
-        provider: 'sendgrid',
-        message: 'Your message has been delivered directly to Nirmal Patil.',
-      };
-    } catch (err: unknown) {
-      if ((err as Error)?.name === 'AbortError') {
-        logger.error('[EMAIL] SendGrid request timed out after 12 seconds.');
-        throw new Error('Email service request timed out.');
-      }
-      logger.error('[EMAIL] Failed to dispatch email via SendGrid:', (err as Error)?.message || err);
-      throw err;
-    } finally {
-      clearTimeout(timeoutId);
-    }
-  }
-
-  // 3. Fallback when no transactional email provider secret is configured
-  if (config.isDev) {
-    logger.warn('[EMAIL] No RESEND_API_KEY found. Simulating email delivery in development mode.');
+  // 2. Fallback when no transactional email provider secret is configured
+  if (!isProduction) {
+    logger.warn('[EMAIL] No POSTMARK_SERVER_TOKEN found. Simulating email delivery in development mode.');
     logger.info(`[SIMULATED EMAIL TO: ${targetRecipient}]`);
     logger.info(`[SUBJECT]: ${emailSubject}`);
     logger.info(`[FROM]: ${options.name} <${options.email}>`);
@@ -262,11 +232,11 @@ export async function sendContactEmail(options: SendEmailOptions): Promise<Email
     return {
       delivered: false,
       provider: 'development-simulation',
-      message: 'Contact form submission successfully validated and logged in development mode. Configure RESEND_API_KEY on the server for live inbox delivery.',
+      message: 'Contact form submission successfully validated and logged in development mode. Configure POSTMARK_SERVER_TOKEN on the server for live inbox delivery.',
     };
   }
 
   // In production without email credentials, fail explicitly to prevent false success claims
-  logger.error('[EMAIL] Production email delivery attempted but no RESEND_API_KEY or SENDGRID_API_KEY configured.');
+  logger.error('[EMAIL] Production email delivery attempted but no POSTMARK_SERVER_TOKEN configured.');
   throw new Error('Email delivery service is not configured on this server. Please reach out directly via email or WhatsApp.');
 }
