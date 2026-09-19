@@ -5,6 +5,8 @@ import { apiClient } from './client';
 
 export interface ContactResponseData {
   received: boolean;
+  delivered: boolean;
+  provider?: string;
   message: string;
 }
 

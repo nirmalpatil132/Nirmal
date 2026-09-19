@@ -126,14 +126,31 @@ export async function sendContactEmail(options: SendEmailOptions): Promise<Email
 
   const resendApiKey = process.env.RESEND_API_KEY || config.email.apiKey;
   const sendgridApiKey = process.env.SENDGRID_API_KEY;
-  const targetRecipient = config.email.to || 'nirmalpatil615@gmail.com';
-  const fromAddress = config.email.from || 'onboarding@resend.dev';
+  const targetRecipient = process.env.EMAIL_TO || process.env.CONTACT_TO_EMAIL || config.email.to || 'nirmalpatil615@gmail.com';
+  let fromAddress = process.env.EMAIL_FROM || config.email.from;
 
-  // 1. Resend REST API (Primary modern transactional email via native fetch)
+  // Validate sender address for production
+  if (!config.isDev && !fromAddress) {
+    logger.error('[EMAIL] Configuration Error: EMAIL_FROM is missing in production. Resend requires a verified sender address.');
+    throw new Error('Email delivery service is misconfigured on this server (missing sender address).');
+  }
+
+  // Fallback for local development if unset
+  if (!fromAddress) {
+    fromAddress = 'onboarding@resend.dev';
+  }
+
+  // 1. Resend REST API (Primary transactional email provider)
   if (resendApiKey) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 12000); // 12-second timeout
+
     try {
+      logger.info(`[EMAIL] Sending contact email via Resend to=${targetRecipient} from=${fromAddress} subject="${options.subject}"`);
+
       const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
+        signal: controller.signal,
         headers: {
           Authorization: `Bearer ${resendApiKey}`,
           'Content-Type': 'application/json',
@@ -152,28 +169,45 @@ export async function sendContactEmail(options: SendEmailOptions): Promise<Email
 
       if (!response.ok) {
         const errorMsg = responseData?.error?.message || responseData?.message || `HTTP ${response.status}`;
-        logger.error(`Resend API error: ${errorMsg}`);
+        logger.error(`[EMAIL] Resend rejected email. status=${response.status} message=${errorMsg}`);
         throw new Error(`Email provider error: ${errorMsg}`);
       }
 
-      logger.info(`Email successfully delivered via Resend. Message ID: ${responseData.id}`);
+      if (!responseData?.id || typeof responseData.id !== 'string') {
+        logger.error(`[EMAIL] Resend returned HTTP ${response.status} but missing message ID in response.`);
+        throw new Error('Email provider did not return a confirmation message ID.');
+      }
+
+      logger.info(`[EMAIL] Resend accepted email. messageId=${responseData.id}`);
       return {
         delivered: true,
         provider: 'resend',
         messageId: responseData.id,
         message: 'Your message has been delivered directly to Nirmal Patil.',
       };
-    } catch (err) {
-      logger.error('Failed to dispatch email via Resend:', err);
+    } catch (err: unknown) {
+      if ((err as Error)?.name === 'AbortError') {
+        logger.error('[EMAIL] Resend request timed out after 12 seconds.');
+        throw new Error('Email service request timed out. Please try again or reach out directly.');
+      }
+      logger.error('[EMAIL] Failed to dispatch email via Resend:', (err as Error)?.message || err);
       throw err;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
-  // 2. SendGrid REST API (Secondary supported transactional email provider)
+  // 2. SendGrid REST API (Secondary supported provider)
   if (sendgridApiKey) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 12000);
+
     try {
+      logger.info(`[EMAIL] Sending contact email via SendGrid to=${targetRecipient} from=${fromAddress}`);
+
       const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
         method: 'POST',
+        signal: controller.signal,
         headers: {
           Authorization: `Bearer ${sendgridApiKey}`,
           'Content-Type': 'application/json',
@@ -196,29 +230,34 @@ export async function sendContactEmail(options: SendEmailOptions): Promise<Email
 
       if (!response.ok) {
         const errText = await response.text();
-        logger.error(`SendGrid API error: ${errText}`);
+        logger.error(`[EMAIL] SendGrid API error: status=${response.status} message=${errText}`);
         throw new Error(`SendGrid delivery error: ${response.statusText}`);
       }
 
-      logger.info('Email successfully delivered via SendGrid.');
+      logger.info('[EMAIL] SendGrid accepted email.');
       return {
         delivered: true,
         provider: 'sendgrid',
         message: 'Your message has been delivered directly to Nirmal Patil.',
       };
-    } catch (err) {
-      logger.error('Failed to dispatch email via SendGrid:', err);
+    } catch (err: unknown) {
+      if ((err as Error)?.name === 'AbortError') {
+        logger.error('[EMAIL] SendGrid request timed out after 12 seconds.');
+        throw new Error('Email service request timed out.');
+      }
+      logger.error('[EMAIL] Failed to dispatch email via SendGrid:', (err as Error)?.message || err);
       throw err;
+    } finally {
+      clearTimeout(timeoutId);
     }
   }
 
   // 3. Fallback when no transactional email provider secret is configured
   if (config.isDev) {
-    logger.warn('No EMAIL_API_KEY / RESEND_API_KEY found. Simulating email delivery in development mode.');
+    logger.warn('[EMAIL] No RESEND_API_KEY found. Simulating email delivery in development mode.');
     logger.info(`[SIMULATED EMAIL TO: ${targetRecipient}]`);
     logger.info(`[SUBJECT]: ${emailSubject}`);
     logger.info(`[FROM]: ${options.name} <${options.email}>`);
-    logger.info(`[BODY]:\n${options.message}`);
 
     return {
       delivered: false,
@@ -228,6 +267,6 @@ export async function sendContactEmail(options: SendEmailOptions): Promise<Email
   }
 
   // In production without email credentials, fail explicitly to prevent false success claims
-  logger.error('Production email delivery attempted but no EMAIL_API_KEY / RESEND_API_KEY configured.');
-  throw new Error('Email delivery service is not configured on this server. Please reach out directly via email or LinkedIn below.');
+  logger.error('[EMAIL] Production email delivery attempted but no RESEND_API_KEY or SENDGRID_API_KEY configured.');
+  throw new Error('Email delivery service is not configured on this server. Please reach out directly via email or WhatsApp.');
 }

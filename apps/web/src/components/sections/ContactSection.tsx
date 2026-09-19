@@ -215,11 +215,20 @@ export function ContactSection() {
       const response = await submitContactForm(formData);
 
       if (response.success) {
-        setSuccessMessage(response.data.message || 'Thank you! Your message was submitted successfully.');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setSelectedInquiry(null);
-        setFieldErrors({});
+        if (response.data.delivered) {
+          setSuccessMessage(response.data.message || 'Thank you! Your message has been delivered directly to Nirmal Patil.');
+          setFormData({ name: '', email: '', subject: '', message: '' });
+          setSelectedInquiry(null);
+          setFieldErrors({});
+        } else {
+          // Validated/received but email delivery was not confirmed by provider
+          setServerError(
+            response.data.message ||
+            'Your message could not be delivered right now. Please try again or contact me directly via email or WhatsApp.'
+          );
+        }
       } else {
+        // Server returned error response (e.g. 502 DELIVERY_FAILED or 400 VALIDATION_ERROR)
         if (response.error.code === 'VALIDATION_ERROR' && Array.isArray(response.error.details)) {
           const apiErrors: Record<string, string> = {};
           (response.error.details as Array<{ field: string; message: string }>).forEach((err) => {
@@ -227,11 +236,14 @@ export function ContactSection() {
           });
           setFieldErrors(apiErrors);
         } else {
-          setServerError(response.error.message || 'Unable to submit your message right now.');
+          setServerError(
+            response.error.message ||
+            'Your message could not be delivered right now. Please try again or contact me directly via email or WhatsApp.'
+          );
         }
       }
     } catch {
-      setServerError('Failed to connect to the backend server. Please reach out directly via email or LinkedIn below.');
+      setServerError('Failed to connect to the backend server. Please reach out directly via email or WhatsApp below.');
     } finally {
       setLoading(false);
     }
@@ -1044,13 +1056,13 @@ export function ContactSection() {
               >
                 <span style={{ fontSize: '18px' }}>✅</span>
                 <div>
-                  <div style={{ fontWeight: 'var(--font-weight-bold)', marginBottom: '2px' }}>Message Received</div>
+                  <div style={{ fontWeight: 'var(--font-weight-bold)', marginBottom: '2px' }}>Message Delivered</div>
                   <div>{successMessage}</div>
                 </div>
               </div>
             )}
 
-            {/* Server / Network Error Alert with Direct Mailto Option */}
+            {/* Server / Network Error Alert with Direct Mailto & WhatsApp Options */}
             {serverError && (
               <div
                 role="alert"
@@ -1070,7 +1082,7 @@ export function ContactSection() {
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
                   <span style={{ fontSize: '18px' }}>⚠️</span>
                   <div>
-                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: '#f87171' }}>Submission Notice</div>
+                    <div style={{ fontWeight: 'var(--font-weight-bold)', color: '#f87171' }}>Delivery Notice</div>
                     <div>{serverError}</div>
                   </div>
                 </div>
@@ -1082,7 +1094,7 @@ export function ContactSection() {
                       fontSize: '12px',
                       fontWeight: 'var(--font-weight-semibold)',
                       color: '#ffffff',
-                      background: 'rgba(255, 107, 0, 0.8)',
+                      background: 'rgba(255, 107, 0, 0.85)',
                       padding: '6px 14px',
                       borderRadius: 'var(--radius-sm)',
                       display: 'inline-flex',
@@ -1092,6 +1104,26 @@ export function ContactSection() {
                   >
                     <span>Open in Email Client</span>
                     <span>✉️</span>
+                  </a>
+                  <a
+                    href={WHATSAPP_CONFIG.getDeepLink(formData.message ? `Hi Nirmal, ${formData.message}` : undefined)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      textDecoration: 'none',
+                      fontSize: '12px',
+                      fontWeight: 'var(--font-weight-semibold)',
+                      color: '#ffffff',
+                      background: 'rgba(34, 197, 94, 0.85)',
+                      padding: '6px 14px',
+                      borderRadius: 'var(--radius-sm)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    <span>Send via WhatsApp</span>
+                    <span>💬</span>
                   </a>
                   <a
                     href="https://www.linkedin.com/in/patilnirmal"

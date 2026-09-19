@@ -41,6 +41,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: /Nirmal
           NEXT_PUBLIC_SITE_URL: https://nirmalpatil132.github.io/Nirmal
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'https://nirmal-portfolio-api.onrender.com' }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

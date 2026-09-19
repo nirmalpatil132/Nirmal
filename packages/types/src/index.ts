@@ -21,7 +21,12 @@ export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
 export interface HealthCheckData {
   api: 'ok';
   database: 'ok' | 'disconnected';
+  email?: {
+    provider: string;
+    configured: boolean;
+  };
 }
+
 
 // Domain Model Types
 export interface ProjectTechnology {
