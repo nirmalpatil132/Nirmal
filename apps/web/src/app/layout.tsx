@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { PROFILE_DATA } from '../data/profile';
 import { SOCIAL_LINKS } from '../data/social';
-import { getAbsoluteAssetUrl, getCanonicalUrl } from '../utils/assets';
+import { getAbsoluteAssetUrl, getCanonicalUrl, getAssetPath } from '../utils/assets';
 import { WhatsAppAssistant } from '../components/ui/WhatsAppAssistant';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nirmalpatil132.github.io/Nirmal';
@@ -71,6 +71,14 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: getCanonicalUrl('/'),
+  },
+  icons: {
+    icon: [
+      { url: getAssetPath('/icon.svg'), type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: getAssetPath('/icon.svg'), type: 'image/svg+xml' },
+    ],
   },
 };
 

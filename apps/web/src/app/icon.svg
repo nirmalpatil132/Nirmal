@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="nirmalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8533"/>
+      <stop offset="100%" stop-color="#ff6b00"/>
+    </linearGradient>
+  </defs>
+  <!-- Dark Rounded Container -->
+  <rect width="32" height="32" rx="8" fill="#07090e" stroke="rgba(255, 107, 0, 0.4)" stroke-width="1.5"/>
+  <!-- Bold Geometric "N" Monogram -->
+  <path d="M9 23V9h3.5l7.5 9.5V9H23v14h-3.5L12 13.5V23H9z" fill="url(#nirmalGrad)"/>
+  <!-- Signature Electric Orange Dot -->
+  <circle cx="24" cy="8" r="2.5" fill="#ff6b00"/>
+</svg>
