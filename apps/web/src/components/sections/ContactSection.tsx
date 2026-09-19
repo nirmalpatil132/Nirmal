@@ -224,7 +224,7 @@ export function ContactSection() {
           // Validated/received but email delivery was not confirmed by provider
           setServerError(
             response.data.message ||
-            'Your message could not be delivered right now. Please try again or contact me directly via email or WhatsApp.'
+            'Message delivery is temporarily unavailable. Please use the Email or WhatsApp option below.'
           );
         }
       } else {
@@ -238,12 +238,12 @@ export function ContactSection() {
         } else {
           setServerError(
             response.error.message ||
-            'Your message could not be delivered right now. Please try again or contact me directly via email or WhatsApp.'
+            'Message delivery is temporarily unavailable. Please use the Email or WhatsApp option below.'
           );
         }
       }
     } catch {
-      setServerError('Failed to connect to the backend server. Please reach out directly via email or WhatsApp below.');
+      setServerError('Message delivery is temporarily unavailable. Please use the Email or WhatsApp option below.');
     } finally {
       setLoading(false);
     }

@@ -16,6 +16,7 @@ import { FormField } from '../../components/ui/FormField';
 import { StatusIndicator } from '../../components/ui/StatusIndicator';
 import { LoadingState } from '../../components/ui/LoadingState';
 import { CertificateFlipCard } from '../../components/ui/CertificateFlipCard';
+import { scrollToTop } from '../../utils/scroll';
 
 export default function DesignSystemPage() {
   const [activeTag, setActiveTag] = useState('All');
@@ -35,7 +36,7 @@ export default function DesignSystemPage() {
               <a href="/" style={{ textDecoration: 'none' }}>
                 <Button variant="secondary" size="sm">← Return to Architecture Health Check</Button>
               </a>
-              <Button variant="ghost" size="sm" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <Button variant="ghost" size="sm" onClick={scrollToTop}>
                 Back to Top
               </Button>
             </div>

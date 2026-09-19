@@ -134,12 +134,8 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var saved = localStorage.getItem('nirmal-theme');
-                  if (saved === 'light') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                  } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                  }
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                  localStorage.removeItem('nirmal-theme');
                 } catch (e) {}
               })();
             `,

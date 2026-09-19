@@ -1,14 +1,21 @@
 import { ApiResponse } from '@nirmal/types';
 
+const PRODUCTION_API_URL = 'https://nirmal-portfolio-api.onrender.com';
+
 function getBaseUrl(): string {
+  // If explicitly provided via environment variable
   if (process.env.NEXT_PUBLIC_API_URL) {
     return process.env.NEXT_PUBLIC_API_URL;
   }
-  // If running in browser on remote production host (e.g. GitHub Pages) without configured API URL
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return '';
+  // Local development loopback fallback
+  if (
+    typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ) {
+    return 'http://localhost:4000';
   }
-  return 'http://localhost:4000';
+  // Production fallback for GitHub Pages and production builds
+  return PRODUCTION_API_URL;
 }
 
 export async function apiClient<T>(
@@ -16,16 +23,6 @@ export async function apiClient<T>(
   options?: RequestInit
 ): Promise<ApiResponse<T>> {
   const baseUrl = getBaseUrl();
-
-  if (!baseUrl) {
-    return {
-      success: false,
-      error: {
-        code: 'API_NOT_CONFIGURED',
-        message: 'The backend API service is not yet deployed for this environment. Please reach out directly via email or LinkedIn below.',
-      },
-    };
-  }
 
   const url = `${baseUrl}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
 
@@ -41,12 +38,13 @@ export async function apiClient<T>(
 
     const data = await res.json();
     return data as ApiResponse<T>;
-  } catch (error) {
+  } catch {
+    // Visitor-friendly network failure response that avoids leaking internals
     return {
       success: false,
       error: {
         code: 'NETWORK_ERROR',
-        message: error instanceof Error ? error.message : 'Failed to connect to backend API server.',
+        message: 'Message delivery is temporarily unavailable. Please use the Email or WhatsApp option below.',
       },
     };
   }

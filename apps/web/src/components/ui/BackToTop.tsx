@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { scrollToTop, getScrollTop } from '../../utils/scroll';
 
 /**
  * BackToTop — Reusable Smooth Scroll-To-Top Control
@@ -12,35 +14,60 @@ import React, { useState, useEffect } from 'react';
  */
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
+  const isScrollingToTopRef = useRef(false);
+  const pathname = usePathname();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Toggle visibility based on page scroll depth
-      if (typeof window !== 'undefined') {
-        setIsVisible(window.scrollY > 300);
+  const handleScroll = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    const top = getScrollTop();
+
+    // If a smooth scroll-to-top was initiated, remain hidden until reaching top
+    if (isScrollingToTopRef.current) {
+      if (top <= 50) {
+        isScrollingToTopRef.current = false;
+        setIsVisible(false);
       }
-    };
+      return;
+    }
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
+    setIsVisible(top > 300);
   }, []);
 
-  const scrollToTop = () => {
-    try {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      if (document.documentElement) {
-        document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-      }
-    } catch {
-      window.scrollTo(0, 0);
+  // Ensure browser scroll restoration doesn't falsely retain scroll on fresh load
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
     }
-  };
+  }, []);
 
-  if (!isVisible) {
-    return null;
-  }
+  // Listen to window scroll and resize events
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [handleScroll]);
+
+  // Re-check scroll position on route transitions
+  useEffect(() => {
+    isScrollingToTopRef.current = false;
+    handleScroll();
+  }, [pathname, handleScroll]);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    isScrollingToTopRef.current = true;
+    setIsVisible(false);
+    scrollToTop();
+    // Safety timeout to ensure isScrollingToTop is reset even if scroll ends without event
+    window.setTimeout(() => {
+      isScrollingToTopRef.current = false;
+    }, 1000);
+  };
 
   return (
     <>
@@ -63,7 +90,7 @@ export function BackToTop() {
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: transform var(--transition-fast, 150ms ease), border-color var(--transition-fast, 150ms ease), box-shadow var(--transition-fast, 150ms ease);
+          transition: opacity 220ms ease, transform 220ms ease, visibility 220ms ease, border-color 150ms ease, box-shadow 150ms ease;
           outline: none;
         }
         .back-to-top-btn:hover {
@@ -79,10 +106,10 @@ export function BackToTop() {
           .back-to-top-btn {
             bottom: calc(18px + env(safe-area-inset-bottom, 0px) + 54px);
             right: calc(18px + env(safe-area-inset-right, 0px));
-            width: 42px;
-            height: 42px;
-            min-width: 42px;
-            min-height: 42px;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -94,10 +121,18 @@ export function BackToTop() {
       `}} />
       <button
         type="button"
-        onClick={scrollToTop}
+        onClick={handleClick}
         className="back-to-top-btn"
-        aria-label="Back to top of page"
+        aria-label="Back to top"
         title="Back to top"
+        tabIndex={isVisible ? 0 : -1}
+        aria-hidden={!isVisible}
+        style={{
+          opacity: isVisible ? 1 : 0,
+          visibility: isVisible ? 'visible' : 'hidden',
+          pointerEvents: isVisible ? 'auto' : 'none',
+          transform: isVisible ? 'translateY(0)' : 'translateY(12px)',
+        }}
       >
         <svg
           width="20"

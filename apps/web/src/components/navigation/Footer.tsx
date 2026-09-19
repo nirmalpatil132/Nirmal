@@ -6,6 +6,7 @@ import { Container } from '../ui/Container';
 import { Button } from '../ui/Button';
 import { PROFILE_DATA } from '../../data/profile';
 import { SOCIAL_LINKS } from '../../data/social';
+import { scrollToTop } from '../../utils/scroll';
 
 export interface FooterProps {
   onOpenHealthModal?: () => void;
@@ -131,17 +132,8 @@ export function Footer({ onOpenHealthModal }: FooterProps) {
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => {
-                try {
-                  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-                  if (document.documentElement) {
-                    document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-                  }
-                } catch {
-                  window.scrollTo(0, 0);
-                }
-              }}
-              aria-label="Back to top of page"
+              onClick={scrollToTop}
+              aria-label="Back to top"
             >
               Back to Top ↑
             </Button>
